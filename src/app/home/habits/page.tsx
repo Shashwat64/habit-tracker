@@ -1,5 +1,82 @@
-export default function HabitsPage(){
+"use client"
+
+import Link from "next/link"
+import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Plus } from "lucide-react"
+
+import HabitsCard from "../../../Components/HabitsCard"
+
+//data
+import habitsDetails from "./data"
+
+
+export default function FocusPage(){
+
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  
+  const serarchParam = searchParams.get('filter') || 'all'
+
+  useEffect(() => {
+    if (!searchParams.get('filter')) {
+      router.replace('?filter=all')
+    }
+  }, [searchParams, router])
+
+  const underlineClass = `relative
+    text-primary
+    font-bold
+    after:absolute
+    after:left-0
+    after:bottom-0
+    after:h-[2px]
+    after:w-full
+    after:bg-[var(--primary)]`
+
+
   return (
-    <div>This is Habits Page</div>
+    <main className="p-10">
+      <section className="flex justify-between items-end">
+        <div>
+          <h1 className="text-2xl font-bold">Habits</h1>
+          <h2 className="text-muted mt-2">Build consistant habits and transform your life</h2>
+        </div>
+        
+
+        <div className="flex gap-5">
+          <input type="text" className="flex gap-1 px-3 py-2 rounded-lg border border-border" placeholder="Seach habits"/>
+
+          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg "> <Plus /> Add Habit</button>
+        </div>
+      </section>
+
+      <section className="my-6 flex justify-between items-center">
+        <div className="flex gap-5 text-secondary">
+          <Link 
+            href="?filter=all"
+            className={`px-2 py-1 mx-1 ${serarchParam==="all" ? underlineClass : ""}`}
+          >All</Link>
+          <Link 
+            href="?filter=active"
+            className={`px-2 py-1 mx-1 ${serarchParam==="active" ? underlineClass : ""}`}
+          >Active</Link>
+          <Link 
+            href="?filter=completed"
+            className={`px-2 py-1 mx-1 ${serarchParam==="completed" ? underlineClass : ""}`}
+          >Completed</Link>
+          <Link 
+            href="?filter=paused"
+            className={`px-2 py-1 mx-1 ${serarchParam==="paused" ? underlineClass : ""}`}
+          >Paused</Link>
+        </div>
+        
+      </section>
+
+      <section>
+        <HabitsCard/>
+      </section>
+
+    </main>
   )
 }

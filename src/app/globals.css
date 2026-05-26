@@ -25,19 +25,30 @@
 ========================= */
 
 .dark {
-  --background: #0C1021;
-  --surface: #121928 #111113;
-  --card: #18181b;
-  --card-hover: #27272a;
+  /* Overall App Layout Background */
+  --background: #0d0f1a;
 
-  --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
+  /* Sidebar, Main Content Cards, and Container Panels */
+  --surface: #131522;
+  --card: #383e60;
+  --card-hover: #1b1e30;
 
-  --border: #3f3f46;
+  /* Interactive Elements (Unselected Tabs/Buttons, Toggle Track) */
+  --input-bg: #191b2a;
+  --border: #1f2235;
 
-  --primary: #8b5cf6;
-  --primary-hover: #7c3aed;
+  /* Typography */
+  --text-primary: #e5edf7;    /* Crisp, slightly off-white */
+  --text-secondary: #bbc6d8;  /* Muted slate blue for secondary text/labels */
+  --text-muted: #8ca2c2;      /* Darker slate for inactive menu icons */
+
+  /* Accents (The Vibrant Purple/Indigo) */
+  --primary: #7f38f0;         /* Timer ring, Active Sidebar/Tabs, Buttons */
+  --primary-hover: #413398;
+  --primary-glow: #705cf62b;  /* Transparent variation for active menu backgrounds */
+
+  /* Secondary Accent (Status/Alerts) */
+  --accent-orange: #f59e0b;   /* Used for the small session dot indicators */
 }
 
 /* =========================
@@ -73,7 +84,7 @@
     color: var(--text-muted);
   }
 
-  .border-theme {
+  .border-border {
     border-color: var(--border);
   }
 

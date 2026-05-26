@@ -1,4 +1,4 @@
-import Sidebar from "../Components/Sidebar"
+import Sidebar from "../../Components/Sidebar"
 
 export default function HomeLayout({
   children,
@@ -8,7 +8,7 @@ export default function HomeLayout({
   return (
     <>
       <Sidebar />
-      <div className="">
+      <div className="ml-75 text-primary">
         {children}
       </div>
     </>

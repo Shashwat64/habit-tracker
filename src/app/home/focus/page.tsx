@@ -1,5 +1,5 @@
 export default function FocusPage(){
-  return (
+  return(
     <div>This is Focus Page</div>
   )
 }
