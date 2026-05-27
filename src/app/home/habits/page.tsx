@@ -1,9 +1,15 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Plus } from "lucide-react"
+
+//types
+import type { dayData, habitDetails } from "@/src/types/types" 
+
+//data
+import { tempLastData, dummyDataForHabits } from "@/src/utils/tempData"
 
 import HabitsCard from "../../../Components/HabitsCard"
 
@@ -12,6 +18,8 @@ import habitsDetails from "./data"
 
 
 export default function FocusPage(){
+
+  const [addHabitModal, setAddHabitModal] = useState<boolean>(false)
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -35,6 +43,8 @@ export default function FocusPage(){
     after:bg-[var(--primary)]`
 
 
+
+
   return (
     <main className="p-10">
       <section className="flex justify-between items-end">
@@ -47,7 +57,7 @@ export default function FocusPage(){
         <div className="flex gap-5">
           <input type="text" className="flex gap-1 px-3 py-2 rounded-lg border border-border" placeholder="Seach habits"/>
 
-          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg "> <Plus /> Add Habit</button>
+          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg" onClick={()=>setAddHabitModal(prev=>!prev)}> <Plus /> Add Habit</button>
         </div>
       </section>
 
@@ -74,7 +84,7 @@ export default function FocusPage(){
       </section>
 
       <section>
-        <HabitsCard/>
+        {dummyDataForHabits.map((data:habitDetails, i:number)=><HabitsCard key={i} habitData={data} />)}
       </section>
 
     </main>

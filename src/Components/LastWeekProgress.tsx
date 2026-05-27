@@ -1,43 +1,36 @@
 import { Check, X } from "lucide-react"
 
 //helper functions
-import { getDayName, getDateAfterXDays } from "../utils/helperFunctions"
+import { getDayName, getDateAfterXDays, getDateOf1WeekAgo, isOneDayApart } from "../utils/helperFunctions"
 
-type dayData = {
-  day:string
-  status: 'done' | 'missed'
-  startDate: string
-}
+import type { dayData, habitDetails } from "../types/types"
 
+//data
+import { tempLastData } from "../utils/tempData"
 
 
-const tempLastData:dayData[] = [
-    {day:"2026-05-23", status:'done', startDate:"2026-05-22"},
-    {day:"2026-05-24", status:'done', startDate:"2026-05-22" },
-    {day:"2026-05-25", status:'missed', startDate:"2026-05-22" },
-    {day:"2026-05-26", status:'done', startDate:"2026-05-22" },
-    {day:"2026-05-27", status:'done', startDate:"2026-05-22" }
-  ]
+export default function LastWeekProgress({
+      completedDates,
+      startDate,
+    }: {
+      completedDates: string[]
+      startDate: string
+    }) {
 
-export default function LastWeekProgress(){
+  const weekBeforeDate:string = getDateOf1WeekAgo()
 
-  const weekBeforeDate = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA')
-  console.log("now time is ", new Date().toISOString())
-  console.log(weekBeforeDate)
+  
 
   return(
-    <div className="flex">
+    <div className="flex w-70">
       {Array.from({ length: 7 }).map((_, i) => {
         const next = getDateAfterXDays(weekBeforeDate, i)
-        console.log(next)
-        const data = tempLastData.find((info:dayData)=>info.day === next)
-        const startDate = tempLastData[0].startDate
+        const data = completedDates.find((info:string)=>info === next)
         return(
-          <div key={i} className="flex flex-col w-12 items-center">
+          <div key={i} className="flex flex-col justify-between w-12 items-center">
             <p>{i==6 ? "Today" : getDayName(next)}</p>
             <div>
-              {next < startDate ? "-" :  data?.status === "done" ? <Check /> : <X /> }
-              
+              {next < startDate ? "-" :  data ? <Check className="text-secondary w-5 h-5" /> : <X className="text-secondary w-5 h-5"/> }
             </div>
           </div>
         )})}
