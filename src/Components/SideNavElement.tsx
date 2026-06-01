@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -28,7 +28,7 @@ export default function SideNavElement({title, href, Icon}:SideNavElementProps){
     "Settings": Settings,
     "UserRoundPen": UserRoundPen
   }
-  const IconValue = iconMap[Icon];
+  const IconValue = iconMap[Icon]
 
   return(
     <Link

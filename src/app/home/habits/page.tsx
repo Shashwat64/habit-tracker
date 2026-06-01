@@ -3,23 +3,23 @@
 import Link from "next/link"
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Plus } from "lucide-react"
+import { Plus } from "lucide-react" 
 
 //types
-import type { dayData, habitDetails } from "@/src/types/types" 
+import type { DayData, HabitDetails } from "@/src/types/types" 
 
 //data
 import { tempLastData, dummyDataForHabits } from "@/src/utils/tempData"
 
-import HabitsCard from "../../../Components/HabitsCard"
+//components
+import HabitsCard from "@/src/Components/HabitsCard"
+import AddHabitModal from "@/src/Components/AddHabitsModal"
 
-//data
-import habitsDetails from "./data"
 
 
 export default function FocusPage(){
 
-  const [addHabitModal, setAddHabitModal] = useState<boolean>(false)
+  const [isAddHabitOpen, setIsAddHabitOpen] = useState<boolean>(false)
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -43,10 +43,9 @@ export default function FocusPage(){
     after:bg-[var(--primary)]`
 
 
-
-
   return (
     <main className="p-10">
+      {isAddHabitOpen && <AddHabitModal isAddHabitOpen={isAddHabitOpen} setIsAddHabitOpen={setIsAddHabitOpen}/>}
       <section className="flex justify-between items-end">
         <div>
           <h1 className="text-2xl font-bold">Habits</h1>
@@ -57,7 +56,7 @@ export default function FocusPage(){
         <div className="flex gap-5">
           <input type="text" className="flex gap-1 px-3 py-2 rounded-lg border border-border" placeholder="Seach habits"/>
 
-          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg" onClick={()=>setAddHabitModal(prev=>!prev)}> <Plus /> Add Habit</button>
+          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg hover:scale-105 active:scale-95" onClick={()=>setIsAddHabitOpen(prev=>!prev)}> <Plus /> Add Habit</button>
         </div>
       </section>
 
@@ -84,7 +83,7 @@ export default function FocusPage(){
       </section>
 
       <section>
-        {dummyDataForHabits.map((data:habitDetails, i:number)=><HabitsCard key={i} habitData={data} />)}
+        {dummyDataForHabits.map((data:HabitDetails, i:number)=><HabitsCard key={i} habitData={data} />)}
       </section>
 
     </main>

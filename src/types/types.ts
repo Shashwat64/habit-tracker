@@ -1,13 +1,14 @@
-export type dayData = {
+export type DayData = {
   day:string
   status: 'done' | 'missed'
   startDate: string
 }
 
-export type habitDetails = {
-  id?:number
-  userId?:number
+export type HabitDetailsFull = {
+  id:number
+  userId:number
   name:string
+  goal:string
   details:string
   freq:string
   startDate:string
@@ -15,3 +16,5 @@ export type habitDetails = {
   isAchieved:boolean
   isDeleted:boolean
 }
+
+export type HabitDetails = Omit<HabitDetailsFull, "id" | "userId">

@@ -1,11 +1,11 @@
 "use client"
 //helper functions
-import { capitalise, findingStreak } from "../utils/helperFunctions"
+import { capitalise, findingStreak, getDateOf1WeekAgo } from "../utils/helperFunctions"
 //component
 import LastWeekProgress from "./LastWeekProgress"
 
 //types
-import type { dayData, habitDetails } from "../types/types"
+import type { DayData, HabitDetails } from "../types/types"
 
 //icons
 import { EllipsisVertical, Check} from "lucide-react" 
@@ -13,18 +13,13 @@ import { EllipsisVertical, Check} from "lucide-react"
 //data
 import { tempLastData, dummyDataForHabits } from "../utils/tempData"
 
-export default function HabitsCards({ habitData }: { habitData: habitDetails }){
+export default function HabitsCards({ habitData }: { habitData: HabitDetails }){
 
-   const habitsDetails ={
-      name:"Drink water",
-      detail:"8 Glasses Daily",
-      freq:"daily",
-      streak:10,
-      completedDates:["2026-05-20", "2026-05-21"], //This will have date when the habits was done
-    }
+  const lastWeekDate = getDateOf1WeekAgo()
+  const last7Completions = dummyDataForHabits[0].completedDates.filter(date=>date.localeCompare(lastWeekDate)>=0)
 
-    const progressPercent = Math.round((tempLastData.length/7)*100)
-    const streak = findingStreak(habitData.completedDates)
+  const progressPercent = Math.round((last7Completions.length/7)*100)
+  const streak = findingStreak(habitData.completedDates)
 
 
   return(
@@ -32,7 +27,7 @@ export default function HabitsCards({ habitData }: { habitData: habitDetails }){
         <div className="flex justify-between flex-1">
           <div className="flex flex-col justify-between">
             <h2 className="font-bold">{habitData.name}</h2>
-            <p className="text-secondary text-sm">{habitData.details}</p>
+            <p className="text-secondary text-sm">{habitData.goal}</p>
           </div>
           <div className="flex flex-col justify-between">
             <h2 className="font-bold">Frequency</h2>

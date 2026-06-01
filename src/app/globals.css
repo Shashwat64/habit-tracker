@@ -31,10 +31,10 @@
   /* Sidebar, Main Content Cards, and Container Panels */
   --surface: #131522;
   --card: #383e60;
-  --card-hover: #1b1e30;
+  --card-hover: #494d60;
 
   /* Interactive Elements (Unselected Tabs/Buttons, Toggle Track) */
-  --input-bg: #191b2a;
+  --input: #191b2a;
   --border: #1f2235;
 
   /* Typography */
@@ -71,6 +71,10 @@
   .bg-card-hover {
     background-color: var(--card-hover);
   }
+
+  .bg-input {
+    background-color: var(--input);
+  } 
 
   .text-primary {
     color: var(--text-primary);
