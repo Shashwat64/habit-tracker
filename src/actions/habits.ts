@@ -1,6 +1,6 @@
 "use server"
 
-import { db } from "@/src/lib/db"
+import db from "@/src/lib/db"
 
 type addHabitProps = {
   name:string
@@ -17,4 +17,6 @@ export async function addHabit(data:addHabitProps) {
  console.log(JSON.stringify(data, null, 2))
 }
 
-export async function toggleTodayHabit() //this will be replaced by
+export async function toggleTodayHabit(){ //this will be replaced by id, and I will use today date (in server) to add of remove the dates from the date list
+
+} 

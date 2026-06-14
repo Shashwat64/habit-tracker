@@ -1,5 +1,12 @@
+import TopNav from "@/src/Components/TopNav"
+
 export default function LoginPage(){
   return (
-    <div>This is Login Page</div>
+    <>
+      <TopNav/>
+      <main className="mt-16 mb-2000">
+        <div className="text-white">This is Login Pages</div>
+      </main>
+    </>
   )
 }

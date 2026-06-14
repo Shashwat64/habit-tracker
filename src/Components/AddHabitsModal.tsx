@@ -16,8 +16,6 @@ export default function AddHabitModal({isAddHabitOpen, setIsAddHabitOpen}:AddHab
 
     const formData = new FormData(e.currentTarget)
 
-    console.log(formData)
-
     const data = {
       name: formData.get("name") as string,
       goal: formData.get("goal") as string,
