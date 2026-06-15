@@ -1,10 +1,9 @@
-// app/api/auth/[...nextauth]/route.ts
-
 import db from "@/src/lib/db";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {
@@ -17,14 +16,20 @@ const handler = NextAuth({
           [credentials?.email]
         );
         const user = result.rows[0];
-        console.log(user)
         if (!user) return null;
-        return user;
-      }
-    })
+        const valid = await bcrypt.compare(credentials?.password ?? "", user.password_hash);
+        if (!valid) return null;
+        return {
+          id: user.id,
+          name: `${user.first_name} ${user.last_name}`,
+          email: user.email,
+        };
+      },
+    }),
   ],
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

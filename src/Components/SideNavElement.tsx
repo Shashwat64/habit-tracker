@@ -25,8 +25,6 @@ export default function SideNavElement({title, href, Icon}:SideNavElementProps){
     "ClipboardCheck": ClipboardCheck,
     "Focus": Focus,
     "ChartColumn" : ChartColumn,
-    "Settings": Settings,
-    "UserRoundPen": UserRoundPen
   }
   const IconValue = iconMap[Icon]
 

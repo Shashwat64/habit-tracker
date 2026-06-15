@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+// app/layout.tsx  ← NO "use client" here
+import Providers from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-screen antialiased dark`}
     >
-      <body className="min-h-full flex h-screen w-screen flex-col bg-background">{children}</body>
+      <body className="min-h-full flex h-screen w-screen flex-col bg-background">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
