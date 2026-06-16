@@ -1,10 +1,19 @@
-import Sidebar from "../../Components/Sidebar"
+import Sidebar from "../../Components/Sidebar";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/src/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function HomeLayout({
+export default async function HomeLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/signin");
+  }
+
   return (
     <>
       <Sidebar />
@@ -12,5 +21,5 @@ export default function HomeLayout({
         {children}
       </div>
     </>
-  )
+  );
 }
