@@ -23,10 +23,6 @@ export default function LastWeekProgress({
   const weekBeforeDate:string = getDateOf1WeekAgo()
   const [isTodayDone, setIsTodayDone] = useState<boolean>(false)
   
-  console.log(isTodayDone)
-
-  console.log(completedDates)
-
   
 
   return(
@@ -34,7 +30,6 @@ export default function LastWeekProgress({
       {Array.from({ length: 7 }).map((_, i) => {
         const next = getDateAfterXDays(weekBeforeDate, i)
         const data = completedDates.find((info:string)=>info === next)
-        console.log(next)
         return(
           <div key={i} 
             className={`flex flex-col justify-between  items-center ${i===6 ? "bg-input w-18 rounded-lg hover:bg-card-hover hover:bg-(--card-hover)" : "w-12"}`}

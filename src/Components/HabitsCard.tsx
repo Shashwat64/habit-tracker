@@ -1,6 +1,6 @@
 "use client"
 //helper functions
-import { capitalise, findingStreak, getDateOf1WeekAgo } from "../utils/helperFunctions"
+import { capitalise, findingStreak, getDateOf1WeekAgo, getYYYYMMDD } from "../utils/helperFunctions"
 //component
 import LastWeekProgress from "./LastWeekProgress"
 
@@ -15,6 +15,7 @@ import { tempLastData, dummyDataForHabits } from "../utils/tempData"
 
 export default function HabitsCards({ habitData }: { habitData: HabitDetails }){
 
+  console.log(habitData)
   const lastWeekDate = getDateOf1WeekAgo()
   const last7Completions = dummyDataForHabits[0].completedDates.filter(date=>date.localeCompare(lastWeekDate)>=0)
 
@@ -31,7 +32,7 @@ export default function HabitsCards({ habitData }: { habitData: HabitDetails }){
           </div>
           <div className="flex flex-col justify-between">
             <h2 className="font-bold">Frequency</h2>
-            <p className="text-secondary text-sm">{capitalise(habitData.freq)}</p>
+            <p className="text-secondary text-sm">{capitalise(habitData.frequency)}</p>
           </div>
 
           <div className="flex flex-col justify-between">
@@ -51,7 +52,7 @@ export default function HabitsCards({ habitData }: { habitData: HabitDetails }){
               </div>
             </div>
           </div>
-          <LastWeekProgress completedDates={habitData.completedDates} startDate = {habitData.startDate} />
+          <LastWeekProgress completedDates={habitData.completedDates} startDate={habitData.startDate} />
         </div>
         <div className="bg-primary-hover p-1 rounded-lg ml-6">
           <EllipsisVertical />

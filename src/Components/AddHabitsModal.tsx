@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react" 
 import { useEffect } from "react"
-import { addHabit } from "../actions/habits"
+import { addHabit } from "@/src/app/actions/habits"
 
 type AddHabitModalProps = {
   isAddHabitOpen: boolean
@@ -20,7 +20,7 @@ export default function AddHabitModal({isAddHabitOpen, setIsAddHabitOpen}:AddHab
       name: formData.get("name") as string,
       goal: formData.get("goal") as string,
       detail: formData.get("detail") as string,
-      freq: formData.get("freq") as string,
+      frequency: formData.get("frequency") as string,
     }
 
     await addHabit(data)
@@ -78,7 +78,7 @@ export default function AddHabitModal({isAddHabitOpen, setIsAddHabitOpen}:AddHab
 
           <label>
             Frequency
-            <select name="freq" className="block w-full bg-input px-4 py-2 rounded-lg text-muted">
+            <select name="frequency" className="block w-full bg-input px-4 py-2 rounded-lg text-muted">
               <option value="daily">Daily</option>
             </select>
           </label>

@@ -5,16 +5,21 @@ export type DayData = {
 }
 
 export type HabitDetailsFull = {
-  id:number
-  userId:number
-  name:string
-  goal:string
-  details:string
-  freq:string
-  startDate:string
+  id: number;
+  userId: number;
+
+  name: string;
+  goal: string;
+  details: string;
+  frequency: string;
+
+  status: string;
+  isDeleted: boolean;
   completedDates:string[]
-  isAchieved:boolean
-  isDeleted:boolean
-}
+
+  startDate: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export type HabitDetails = Omit<HabitDetailsFull, "id" | "userId">
