@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Plus } from "lucide-react" 
 
@@ -20,6 +20,10 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
   const [isAddHabitOpen, setIsAddHabitOpen] = useState<boolean>(false)
 
   const [threeDotsMenu, setThreeDotsMenu] = useState<number>(-1)
+  const menuRef = useRef<HTMLDivElement>(null);
+
+
+  console.log("in HabitsPage", threeDotsMenu)
 
   const [search, setSearch] = useState<string>("");
 
@@ -106,7 +110,9 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
       </section>
 
       <section className="flex flex-col gap-3">
-        {habits.filter(habit=>habit.status.toLowerCase() === "active").map((data:HabitDetailsFull, i:number)=><HabitsCard key={i} habitData={data} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} />)}
+        {habits.filter(habit=>habit.status.toLowerCase() === "active").map((data:HabitDetailsFull, i:number)=>
+          <HabitsCard key={i} habitData={data} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} menuRef={threeDotsMenu === data.id ? menuRef : undefined} />)
+        }
       </section>
 
     </main>

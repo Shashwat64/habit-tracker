@@ -18,9 +18,10 @@ type HabitsCard = {
   habitData: HabitDetailsFull
   threeDotsMenu:number
   setThreeDotsMenu:React.Dispatch<React.SetStateAction<number>> 
+  menuRef?: React.RefObject<HTMLDivElement | null>
 }
 
-export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu }: HabitsCard){
+export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu, menuRef }: HabitsCard){
 
   const lastWeekDate = getDateOf1WeekAgo()
   const last7Completions = habitData.completedDates.filter(date=>date.localeCompare(lastWeekDate)>=0)
@@ -28,13 +29,12 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
   const progressPercent = Math.round((last7Completions.length/7)*100)
   const streak = findingStreak(habitData.completedDates)
 
-  const menuRef = useRef<HTMLDivElement>(null);
-
   // to close the 3 dots menu
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (threeDotsMenu !== habitData.id) return;
-
+      
+      if (!menuRef?.current) return;
       if (
         menuRef.current &&
         !menuRef.current.contains(event.target as Node)
@@ -48,7 +48,7 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setThreeDotsMenu]);
+  }, [threeDotsMenu, habitData.id]);
 
 
   return(
@@ -88,11 +88,12 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
           className="relative bg-primary-hover p-1 rounded-lg ml-6"
         >
           {threeDotsMenu === habitData.id && (
-            <Habit3DotsMenu habitId={habitData.id} />
+            <Habit3DotsMenu habitId={habitData.id} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} />
           )}
 
           <EllipsisVertical
-            onClick={() => {              
+            onClick={(e) => { 
+              e.stopPropagation();            
               setThreeDotsMenu(prev => {
                 return prev === habitData.id
                   ? -1
