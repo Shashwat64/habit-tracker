@@ -42,7 +42,7 @@ type DropMenuItems = {
 
 export default function Sidebar(){
 
-  const [isDropdown, setIsDropdown] = useState<boolean>(true)
+  const [isDropdown, setIsDropdown] = useState<boolean>(false)
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 

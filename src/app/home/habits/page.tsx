@@ -5,6 +5,8 @@ import HabitsPage from "./HabitsPage";
 
 
 
+
+
 export default async function Page() {
   const habits = await getHabits();
   

@@ -33,6 +33,7 @@
   --card: #383e60;
   --card-hover: #2d366b;
   --card-active: #4f5580;
+  --dropdown: #1a1d2e;
 
   /* Interactive Elements (Unselected Tabs/Buttons, Toggle Track) */
   --input: #191b2a;
@@ -61,6 +62,10 @@
     background-color: var(--background);
   }
 
+  .bg-dropdown {
+    background-color: var(--dropdown);
+  }
+  
   .bg-surface {
     background-color: var(--surface);
   }

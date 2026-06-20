@@ -6,10 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Plus } from "lucide-react" 
 
 //types
-import type { DayData, HabitDetails } from "@/src/types/types" 
+import type { DayData, HabitDetailsFull } from "@/src/types/types" 
 
-//data
-import { tempLastData, dummyDataForHabits } from "@/src/utils/tempData"
 
 //components
 import HabitsCard from "@/src/Components/HabitsCard"
@@ -17,11 +15,11 @@ import AddHabitModal from "@/src/Components/AddHabitsModal"
 
 
 
-export default function HabitsPage(data:any){
+export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
   const [isAddHabitOpen, setIsAddHabitOpen] = useState<boolean>(false)
 
-  console.log(data)
+  const [threeDotsMenu, setThreeDotsMenu] = useState<number>(-1)
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -84,8 +82,8 @@ export default function HabitsPage(data:any){
         
       </section>
 
-      <section>
-        {dummyDataForHabits.map((data:HabitDetails, i:number)=><HabitsCard key={i} habitData={data} />)}
+      <section className="flex flex-col gap-3">
+        {habits.filter(habit=>habit.status.toLowerCase() === "active").map((data:HabitDetailsFull, i:number)=><HabitsCard key={i} habitData={data} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} />)}
       </section>
 
     </main>

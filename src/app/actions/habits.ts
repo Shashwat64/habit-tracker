@@ -34,7 +34,7 @@ export async function getHabits() {
   if (!session) return [];
 
   const result = await db.query(
-    "SELECT * FROM habits WHERE user_id = $1 ORDER BY created_at DESC",
+    "SELECT * FROM habits WHERE user_id = $1 AND NOT is_deleted ORDER BY created_at DESC",
     [session.user.id]
   );
 
@@ -53,3 +53,4 @@ export async function getCompletedDates() {
 
   return result.rows;
 }
+

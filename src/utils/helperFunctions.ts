@@ -51,7 +51,7 @@ export function getYYYYMMDD(date: Date): string {
 export function findingStreak(dateArray:string[]){
 
   if(dateArray?.length===0){
-    throw new Error("Invalid Date Array")
+    return 0;
   }
 
   const sortedDate = dateArray.sort((a:string,b:string)=>b.localeCompare(a))
