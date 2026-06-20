@@ -21,6 +21,11 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
   const [threeDotsMenu, setThreeDotsMenu] = useState<number>(-1)
 
+  const [search, setSearch] = useState<string>("");
+
+
+
+
   const router = useRouter()
   const searchParams = useSearchParams()
   
@@ -31,6 +36,19 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
       router.replace('?filter=all')
     }
   }, [searchParams, router])
+
+  console.log(habits);
+
+  //filtering based on the Status
+  habits = habits.filter(habit=>habit.status.toLowerCase() === serarchParam)
+
+  //filtering based on the input field (name, goal and details)
+  habits = habits.filter(habit=>
+    habit.name.toLowerCase().includes(search.toLowerCase()) || 
+    habit.goal.toLowerCase().includes(search.toLowerCase()) || 
+    habit.details.toLowerCase().includes(search.toLowerCase())
+  )
+
 
   const underlineClass = `relative
     text-primary
@@ -54,7 +72,12 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
         
 
         <div className="flex gap-5">
-          <input type="text" className="flex gap-1 px-3 py-2 rounded-lg border border-border" placeholder="Seach habits"/>
+          <input 
+            type="text" 
+            className="flex gap-1 px-3 py-2 rounded-lg border border-border" 
+            placeholder="Search habits"
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
           <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg hover:scale-105 active:scale-95" onClick={()=>setIsAddHabitOpen(prev=>!prev)}> <Plus /> Add Habit</button>
         </div>

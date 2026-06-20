@@ -33,6 +33,8 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
   // to close the 3 dots menu
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
+      if (threeDotsMenu !== habitData.id) return;
+
       if (
         menuRef.current &&
         !menuRef.current.contains(event.target as Node)
@@ -41,7 +43,7 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -81,17 +83,22 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
           </div>
           <LastWeekProgress completedDates={habitData.completedDates} startDate={habitData.startDate} />
         </div>
-        <div ref={menuRef} className="relative bg-primary-hover p-1 rounded-lg ml-6">
-          {threeDotsMenu === habitData.id && 
-          <Habit3DotsMenu  habitId={habitData.id} />}
+        <div
+          ref={menuRef}
+          className="relative bg-primary-hover p-1 rounded-lg ml-6"
+        >
+          {threeDotsMenu === habitData.id && (
+            <Habit3DotsMenu habitId={habitData.id} />
+          )}
+
           <EllipsisVertical
-            onClick={() =>
-              setThreeDotsMenu(
-                threeDotsMenu === habitData.id
+            onClick={() => {              
+              setThreeDotsMenu(prev => {
+                return prev === habitData.id
                   ? -1
-                  : habitData.id
-              )
-            }
+                  : habitData.id;
+              });
+            }}
           />
         </div>
       </div>

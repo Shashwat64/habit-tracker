@@ -6,12 +6,21 @@ type Habit3DotsMenu = {
 }
 
 export default function Habit3DotsMenu({ habitId } : {habitId:number}){
-
-  console.log(habitId)
   return( 
-    <div className="z-5 absolute -bottom-22 -left-full flex flex-col items-baseline bg-dropdown p-2 gap-2 rounded-md">
-      <button className="w-full px-2 py-1 hover:bg-card-hover rounded-md">Edit</button>
-      <button className="w-full px-2 py-1 hover:bg-card-hover rounded-md">Delete</button>
-    </div>
+    <div className="absolute -bottom-40 -left-full z-50 flex flex-col bg-dropdown p-2 gap-1 rounded-md min-w-32 shadow-lg">
+  <button className="w-full text-left px-3 py-2 hover:bg-card-hover rounded-md">
+    Edit
+  </button>
+
+  <button className="w-full text-left px-3 py-2 hover:bg-card-hover rounded-md">
+    Complete
+  </button>
+
+  <hr className="border-border" />
+
+  <button className="w-full text-left px-3 py-2 text-red-400 hover:bg-red-500/10 rounded-md">
+    Delete
+  </button>
+</div>
   )
 }
