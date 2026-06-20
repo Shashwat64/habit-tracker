@@ -88,7 +88,7 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
           className="relative bg-primary-hover p-1 rounded-lg ml-6"
         >
           {threeDotsMenu === habitData.id && (
-            <Habit3DotsMenu habitId={habitData.id} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} />
+            <Habit3DotsMenu habitData={habitData} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} />
           )}
 
           <EllipsisVertical

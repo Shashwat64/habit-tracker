@@ -1,19 +1,22 @@
-import { editHabit, achiveHabit, deleteHabit  } from "../app/actions/habits";
+import { editHabit, achieveHabit, unachieveHabit, deleteHabit  } from "../app/actions/habits";
+import type { HabitDetailsFull } from "../types/types";
 
 
 type Habit3DotsMenu = {
-  habitId: number
+  habitData: HabitDetailsFull
   threeDotsMenu:number
   setThreeDotsMenu:React.Dispatch<React.SetStateAction<number>> 
 }
 
-export default function Habit3DotsMenu({ habitId, threeDotsMenu, setThreeDotsMenu } : Habit3DotsMenu){
+export default function Habit3DotsMenu({ habitData, threeDotsMenu, setThreeDotsMenu } : Habit3DotsMenu){
+  const isAchieved = habitData.status.toLowerCase() === "achieved"
+  console.log(habitData)
   return( 
     <div className="absolute -bottom-40 -left-full z-50 flex flex-col bg-dropdown p-2 gap-1 rounded-md min-w-32 shadow-lg">
       <button 
         className="w-full text-left px-3 py-2 hover:bg-card-hover rounded-md"
         onClick={() => {
-          editHabit(habitId);
+          editHabit(habitData.id);
           setThreeDotsMenu(-1);
         }}
       >
@@ -23,11 +26,14 @@ export default function Habit3DotsMenu({ habitId, threeDotsMenu, setThreeDotsMen
       <button 
         className="w-full text-left px-3 py-2 hover:bg-card-hover rounded-md"
         onClick={() => {
-          achiveHabit(habitId);
+          isAchieved
+            ? unachieveHabit(habitData.id)
+            : achieveHabit(habitData.id)
           setThreeDotsMenu(-1);
         }}
       >
-        Achieve
+        {isAchieved ? "Unachieve" : "Achieve"}
+        
       </button>
 
       <hr className="border-border" />
@@ -35,7 +41,7 @@ export default function Habit3DotsMenu({ habitId, threeDotsMenu, setThreeDotsMen
       <button 
         className="w-full text-left px-3 py-2 text-red-400 hover:bg-red-500/10 rounded-md"
         onClick={() => {
-          deleteHabit(habitId);
+          deleteHabit(habitData.id);
           setThreeDotsMenu(-1);
         }} 
       >

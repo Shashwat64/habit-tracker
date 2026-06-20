@@ -44,7 +44,9 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
   console.log(habits);
 
   //filtering based on the Status
-  habits = habits.filter(habit=>habit.status.toLowerCase() === serarchParam)
+  habits = habits.filter(habit =>
+    serarchParam === "all" ||
+    habit.status.toLowerCase() === serarchParam)
 
   //filtering based on the input field (name, goal and details)
   habits = habits.filter(habit=>
@@ -98,19 +100,15 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
             className={`px-2 py-1 mx-1 ${serarchParam==="active" ? underlineClass : ""}`}
           >Active</Link>
           <Link 
-            href="?filter=completed"
-            className={`px-2 py-1 mx-1 ${serarchParam==="completed" ? underlineClass : ""}`}
-          >Completed</Link>
-          <Link 
-            href="?filter=paused"
-            className={`px-2 py-1 mx-1 ${serarchParam==="paused" ? underlineClass : ""}`}
-          >Paused</Link>
+            href="?filter=achieved"
+            className={`px-2 py-1 mx-1 ${serarchParam==="achieved" ? underlineClass : ""}`}
+          >Achieved</Link>
         </div>
         
       </section>
 
       <section className="flex flex-col gap-3">
-        {habits.filter(habit=>habit.status.toLowerCase() === "active").map((data:HabitDetailsFull, i:number)=>
+        {habits.map((data:HabitDetailsFull, i:number)=>
           <HabitsCard key={i} habitData={data} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} menuRef={threeDotsMenu === data.id ? menuRef : undefined} />)
         }
       </section>

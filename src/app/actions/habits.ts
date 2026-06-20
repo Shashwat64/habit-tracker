@@ -75,23 +75,48 @@ export async function editHabit(habitId:number){
   
 }
 
-export async function achiveHabit(habitId:number){
+export async function achieveHabit(habitId:number){
   const session = await getServerSession(authOptions);
 
   if (!session) return [];
  
-  
-  const result = await db.query(
-    `UPDATE habits
-      SET is_deleted = true
-      WHERE id = $1 AND user_id = $2;`,
-    [habitId, session.user.id]
-  );
+  try{
+    const result = await db.query(
+      `UPDATE habits
+          SET status = 'achieved'
+          WHERE id = $1 AND user_id = $2;`,
+      [habitId, session.user.id]
+    );
+    revalidatePath("/home/habits");
+    return result.rows;
+  }catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
 
-  return result.rows;
+export async function unachieveHabit(habitId:number){
+  const session = await getServerSession(authOptions);
 
-  revalidatePath("/home/habits");
-  
+  if (!session) return [];
+ 
+  try{
+    const result = await db.query(
+      `UPDATE habits
+          SET status = 'active'
+          WHERE id = $1 AND user_id = $2;`,
+      [habitId, session.user.id]
+    );
+    revalidatePath("/home/habits");
+    return result.rows;
+  }catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
 }
 
 export async function deleteHabit(habitId:number){
