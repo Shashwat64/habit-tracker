@@ -23,3 +23,12 @@ export type HabitDetailsFull = {
 };
 
 export type HabitDetails = Omit<HabitDetailsFull, "id" | "userId">
+
+export type UserDetails = {
+  createdAt: Date,
+  email: string,
+  firstName: string,
+  lastName: string,
+  username: string,
+  id: number,
+}

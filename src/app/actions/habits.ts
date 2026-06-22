@@ -1,14 +1,43 @@
 "use server";
 import db from "@/src/lib/db";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { authOptions } from "@/src/lib/auth";
 import { revalidatePath } from "next/cache";
+
+import type { UserDetails } from "@/src/types/types";
 
 type AddHabbitProps = {
   name: string
   goal: string
   detail: string
   frequency: string
+}
+
+export async function getUserDetails(){
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/signin");
+  }
+
+  const userId = session.user.id;
+
+  const result = await db.query(
+    "SELECT * FROM users WHERE id = $1",
+    [userId]
+  );
+
+
+  const userDetails: UserDetails = {
+  createdAt: result.rows[0].created_at,
+  email: result.rows[0].email,
+  firstName: result.rows[0].first_name,
+  lastName: result.rows[0].last_name,
+  username: result.rows[0].username,
+  id: result.rows[0].id,
+};
+  return userDetails;
 }
 
 export async function addHabit(data: AddHabbitProps) {
@@ -39,7 +68,6 @@ export async function getHabits() {
     "SELECT * FROM habits WHERE user_id = $1 AND NOT is_deleted ORDER BY created_at DESC",
     [session.user.id]
   );
-
   return result.rows;
 }
 
@@ -56,12 +84,30 @@ export async function getCompletedDates() {
   return result.rows;
 }
 
-export async function editHabit(habitId:number){
+export async function editHabit(habitId:number, data: AddHabbitProps){
   const session = await getServerSession(authOptions);
 
   if (!session) return [];
  
+  const userId = session.user.id;
+  const { name, goal, detail, frequency } = data;
   
+  await db.query(
+    `UPDATE habits
+      SET
+        name = $1,
+        goal = $2,
+        details = $3,
+        frequency = $4,
+        updated_at = NOW()
+      WHERE id = $5
+        AND user_id = $6
+      RETURNING *;
+    `,
+    [name, goal, detail, frequency, habitId, userId]
+  );
+  revalidatePath("/home/habits");
+
   const result = await db.query(
     `UPDATE habits
       SET is_deleted = true
@@ -69,10 +115,10 @@ export async function editHabit(habitId:number){
     [habitId, session.user.id]
   );
 
-  return result.rows;
+
 
   revalidatePath("/home/habits");
-  
+  return result.rows;  
 }
 
 export async function achieveHabit(habitId:number){

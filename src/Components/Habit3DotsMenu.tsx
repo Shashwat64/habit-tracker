@@ -1,4 +1,5 @@
-import { editHabit, achieveHabit, unachieveHabit, deleteHabit  } from "../app/actions/habits";
+import { useState } from "react";
+import { achieveHabit, unachieveHabit, deleteHabit  } from "../app/actions/habits";
 import type { HabitDetailsFull } from "../types/types";
 
 
@@ -10,13 +11,14 @@ type Habit3DotsMenu = {
 
 export default function Habit3DotsMenu({ habitData, threeDotsMenu, setThreeDotsMenu } : Habit3DotsMenu){
   const isAchieved = habitData.status.toLowerCase() === "achieved"
-  console.log(habitData)
+  const [isEditModal, setIsEditModal] = useState<boolean>(false)
+  
   return( 
     <div className="absolute -bottom-40 -left-full z-50 flex flex-col bg-dropdown p-2 gap-1 rounded-md min-w-32 shadow-lg">
       <button 
         className="w-full text-left px-3 py-2 hover:bg-card-hover rounded-md"
         onClick={() => {
-          editHabit(habitData.id);
+          setIsEditModal(true);
           setThreeDotsMenu(-1);
         }}
       >

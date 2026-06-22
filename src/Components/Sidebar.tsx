@@ -6,6 +6,8 @@ import { signOut } from "next-auth/react";
 
 import { useState, useRef, useEffect } from "react";
 
+import { useUser } from "@/src/context/UserContext";
+
 import { Settings, UserRoundPen, LogOut } from "lucide-react"
 import type { LucideIcon } from "lucide-react";
 
@@ -41,6 +43,8 @@ type DropMenuItems = {
 }
 
 export default function Sidebar(){
+
+  const userDetails = useUser();
 
   const [isDropdown, setIsDropdown] = useState<boolean>(false)
 
@@ -118,8 +122,8 @@ export default function Sidebar(){
           >
             <Settings className="h-8 w-8"/>
             <div className="ml-1">
-              <p>Your Name</p>
-              <p className="text-secondary text-sm">email@gmail.com</p>
+              <p>{userDetails.firstName} {userDetails.lastName}</p>
+              <p className="text-secondary text-sm">{userDetails.email}</p>
             </div>
           </div>      
         </div>

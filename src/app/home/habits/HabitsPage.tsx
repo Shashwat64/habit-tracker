@@ -11,7 +11,7 @@ import type { DayData, HabitDetailsFull } from "@/src/types/types"
 
 //components
 import HabitsCard from "@/src/Components/HabitsCard"
-import AddHabitModal from "@/src/Components/AddHabitsModal"
+import ManageHabitModal from "@/src/Components/ManageHabitModal"
 
 
 
@@ -69,7 +69,7 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
   return (
     <main className="p-10">
-      {isAddHabitOpen && <AddHabitModal isAddHabitOpen={isAddHabitOpen} setIsAddHabitOpen={setIsAddHabitOpen}/>}
+      {isAddHabitOpen && <ManageHabitModal isAddHabitOpen={isAddHabitOpen} setIsAddHabitOpen={setIsAddHabitOpen}/>}
       <section className="flex justify-between items-end">
         <div>
           <h1 className="text-2xl font-bold">Habits</h1>
