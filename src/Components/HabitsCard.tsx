@@ -27,17 +27,22 @@ type HabitsCard = {
 
 export default function HabitsCards({ habitData, menuRef }: HabitsCard){
 
-  const lastWeekDate = getDateOf1WeekAgo()
-  const last7Completions = habitData.completedDates.filter(date=>date.localeCompare(lastWeekDate)>=0)
+  // console.log( habitData.completedDates[0].completedOn)
+  // console.log(typeof habitData.completedDates[0].completedOn)
 
-  const progressPercent = Math.round((last7Completions.length/7)*100)
-  const streak = findingStreak(habitData.completedDates)
+  const lastWeekDate = getDateOf1WeekAgo();
+
+  console.log(lastWeekDate)
+  const last7Completions = habitData.completedDates.filter(date=>getYYYYMMDD(date.completedOn).localeCompare(lastWeekDate)>=0);
+
+  const progressPercent = Math.round((last7Completions.length/7)*100);
+  const streak = findingStreak(habitData.completedDates);
 
   const context = useContext(HabitModalContext);
 
   if (!context) return null;
 
-  const {threeDotsMenu, setThreeDotsMenu} = context
+  const {threeDotsMenu, setThreeDotsMenu} = context;
 
   // to close the 3 dots menu
   useEffect(() => {
@@ -59,6 +64,7 @@ export default function HabitsCards({ habitData, menuRef }: HabitsCard){
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [threeDotsMenu, habitData.id]);
+
 
 
   return(
@@ -91,7 +97,7 @@ export default function HabitsCards({ habitData, menuRef }: HabitsCard){
               </div>
             </div>
           </div>
-          <LastWeekProgress completedDates={habitData.completedDates} startDate={habitData.startDate} />
+          <LastWeekProgress habitId = {habitData.id} completedDates={habitData.completedDates} startDate={habitData.startDate} />
         </div>
         <div
           ref={menuRef}

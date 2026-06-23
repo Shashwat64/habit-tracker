@@ -77,12 +77,67 @@ export async function getCompletedDates() {
   if (!session) return [];
 
   const result = await db.query(
-    "SELECT * FROM habits WHERE user_id = $1 ORDER BY created_at DESC",
+    `SELECT cd.*
+      FROM habit_completions cd
+      JOIN habits h
+        ON cd.habit_id = h.id
+      WHERE h.user_id = $1`,
     [session.user.id]
   );
-
   return result.rows;
 }
+
+export async function editCompletedDates(habitId:number, date:string) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) return [];
+
+  const result = await db.query(
+      `SELECT EXISTS (
+        SELECT 1
+        FROM habit_completions cd
+        JOIN habits h
+          ON cd.habit_id = h.id
+        WHERE h.user_id = $1
+          AND cd.habit_id = $2
+          AND cd.completed_on = $3
+      );`,
+    [session.user.id, habitId, date]
+  );
+
+  console.log("in editCompletedDates, ", result.rows[0].exists)
+
+  const doesDateExists = result.rows[0].exists;
+
+  if(doesDateExists){
+    const removedDate = await db.query(
+        `DELETE FROM habit_completions cd
+          USING habits h
+          WHERE cd.habit_id = h.id
+            AND h.user_id = $1
+            AND cd.habit_id = $2
+            AND cd.completed_on = $3;
+        `,
+      [session.user.id, habitId, date]
+    );
+  }else{
+    const addedDate = await db.query(
+      `INSERT INTO habit_completions (
+        habit_id,
+        completed_on,
+        progress,
+        target
+      )
+      VALUES ($1, $2, $3, $4)
+      `,
+      [habitId, date, null, null]
+    );
+  }
+  revalidatePath("/home/habits");
+  return doesDateExists;
+}
+
+
 
 export async function editHabit(habitId:number, data: AddHabbitProps){
   const session = await getServerSession(authOptions);

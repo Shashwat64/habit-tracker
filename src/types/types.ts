@@ -4,6 +4,14 @@ export type DayData = {
   startDate: string
 }
 
+export type CompletedDate = {
+  completedOn:Date
+  habitId:number
+  id:number
+  progress:number | null
+  target:number | null
+}
+
 export type HabitDetailsFull = {
   id: number;
   userId: number;
@@ -15,7 +23,7 @@ export type HabitDetailsFull = {
 
   status: string;
   isDeleted: boolean;
-  completedDates:string[]
+  completedDates:CompletedDate[]
 
   startDate: string;
   createdAt: Date;

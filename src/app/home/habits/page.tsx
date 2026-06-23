@@ -11,9 +11,16 @@ export default async function Page() {
   const habits = await getHabits();
   
   const allCompletedDates = await getCompletedDates();
-
+  console.log("allCompletedDates", allCompletedDates)
   const habitsWithDates = habits.map(habit=>{
     const comDateForHabit = allCompletedDates.filter(dateInfo => dateInfo.habit_id === habit.id)
+      .map(date =>({
+        completedOn:date.completed_on,
+        habitId:date.habit_id,
+        id: date.id,
+        progress: date.progress,
+        target: date.target
+      }))
 
     return {
       id: habit.id,

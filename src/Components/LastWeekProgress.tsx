@@ -8,22 +8,24 @@ import { getDayName, getDateAfterXDays, getDateOf1WeekAgo, isOneDayApart } from 
 
 import type { DayData, HabitDetails } from "../types/types"
 
-//data
-import { tempLastData } from "../utils/tempData"
+import { editCompletedDates } from "../app/actions/habits"
+
 
 
 export default function LastWeekProgress({
       completedDates,
       startDate,
+      habitId
     }: {
       completedDates: string[]
       startDate: string
+      habitId:number
     }) {
 
   const weekBeforeDate:string = getDateOf1WeekAgo()
   const [isTodayDone, setIsTodayDone] = useState<boolean>(false)
-  
-  
+
+  const dateToChange = new Date().toISOString().split("T")[0];  
 
   return(
     <div className="flex w-70">
@@ -37,7 +39,10 @@ export default function LastWeekProgress({
           >
 
             {i === 6 && (
-            <>
+            <div 
+              className="flex flex-col items-center"
+              onClick={async()=>{await editCompletedDates(habitId, dateToChange)}}
+            >
               <p>Today</p>
               <div className="relative">
                 {next < startDate ? "-" : isTodayDone
@@ -48,10 +53,10 @@ export default function LastWeekProgress({
                   <p></p>
                 </div>
               </div>
-            </>
+            </div>
           )}
             {i < 6 && (
-          <>
+          <div className="flex flex-col items-center">
             <p>{getDayName(next)}</p>
             <div>
               {next < startDate
@@ -61,7 +66,7 @@ export default function LastWeekProgress({
                   : <X className="text-secondary w-5 h-5" />
               }
             </div>
-          </>
+          </div>
         )}
           </div>
         )})}

@@ -1,5 +1,7 @@
 import { readRouteCacheEntry } from "next/dist/client/components/segment-cache/cache"
 
+import type { CompletedDate } from "../types/types"
+
 export function capitalise(string:string){
   return (string.slice(0,1).toUpperCase() + string.slice(1))
 }
@@ -48,11 +50,15 @@ export function getYYYYMMDD(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export function findingStreak(dateArray:string[]){
+export function findingStreak(dateObjArray:CompletedDate[]){
 
-  if(dateArray?.length===0){
+  if(dateObjArray?.length===0){
     return 0;
   }
+
+  const dateArray = dateObjArray.map(date=>date.completedOn)
+
+  console.log(dateArray)
 
   const sortedDate = dateArray.sort((a:string,b:string)=>b.localeCompare(a))
 
