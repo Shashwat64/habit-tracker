@@ -77,8 +77,9 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
         setIsHabitModalOpen={setIsHabitModalOpen}
         habitId = {habitId} 
         setHabitId = {setHabitId}
+        
         >
-      {isHabitModalOpen && <ManageHabitModal/>}
+      {isHabitModalOpen && <ManageHabitModal habits = {habits}/>}
       <section className="flex justify-between items-end">
         <div>
           <h1 className="text-2xl font-bold">Habits</h1>

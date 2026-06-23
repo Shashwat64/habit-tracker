@@ -1,14 +1,17 @@
 "use client"
 
 import { X } from "lucide-react" 
-import { useEffect, useContext } from "react"
+import { useState, useContext } from "react"
 import { addHabit, editHabit } from "@/src/app/actions/habits"
 
 //context
 import { HabitModalContext } from "../context/HabitModalContext"
 
+//types
+import type { HabitDetailsFull } from "@/src/types/types" 
 
-export default function ManageHabitModal(){
+export default function ManageHabitModal({habits}:{habits:HabitDetailsFull[]}){
+
 
   const context = useContext(HabitModalContext);
 
@@ -16,10 +19,29 @@ export default function ManageHabitModal(){
 
   const {threeDotsMenu, setThreeDotsMenu, isHabitModalOpen, setIsHabitModalOpen, habitId,setHabitId } = context
 
+  const habit = habits?.find(habit=>habit.id===habitId)
+
+  console.log("Habit is ", habit)
+
+  const [formData, setFormData] = useState({
+    name: habit?.name ||  "",
+    goal: habit?.goal || "",
+    details: habit?.details || "",
+    frequency: habit?.frequency ||  "daily",
+  });
+
   const isEdit = habitId !== -1;
 
-  console.log("isEdit is " ,isEdit)
-  console.log("EDIT MODAL", habitId);
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) {
+    const { name, value } = e.target;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
@@ -66,8 +88,10 @@ export default function ManageHabitModal(){
               name="name"
               className="w-full h-12 rounded-lg bg-input mt-2 px-4"
               placeholder="Reading"
+              value={formData.name}
+              onChange={handleChange}
               required
-            />
+              />
           </label>
 
           <label>
@@ -77,8 +101,10 @@ export default function ManageHabitModal(){
               name="goal"
               className="w-full h-12 rounded-lg bg-input mt-2 px-4"
               placeholder="For 20 minutes"
+              value={formData.goal}
+              onChange={handleChange}
               required
-            />
+              />
           </label>
 
           <label>
@@ -87,13 +113,19 @@ export default function ManageHabitModal(){
               name="detail"
               className="w-full h-25 rounded-lg bg-input mt-2 px-4 py-2"
               placeholder="Read 10 pages of Thus Spake Zarathustra by Friedrich Nietzsche"
+              value={formData.details}
+              onChange={handleChange}
               required
             ></textarea>
           </label>
 
           <label>
             Frequency
-            <select name="frequency" className="block w-full bg-input px-4 py-2 rounded-lg text-muted">
+            <select 
+              name="frequency" 
+              className="block w-full bg-input px-4 py-2 rounded-lg text-muted"
+              onChange={handleChange}
+            >
               <option value="daily">Daily</option>
             </select>
           </label>
