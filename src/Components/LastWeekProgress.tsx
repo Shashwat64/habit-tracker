@@ -4,11 +4,12 @@ import { Check, X } from "lucide-react"
 import { useState } from "react"
 
 //helper functions
-import { getDayName, getDateAfterXDays, getDateOf1WeekAgo, isOneDayApart } from "../utils/helperFunctions"
+import { getDayName, getDateAfterXDays, getDateOf1WeekAgo, isOneDayApart, getYYYYMMDD } from "../utils/helperFunctions"
 
 import type { DayData, HabitDetails } from "../types/types"
 
 import { editCompletedDates } from "../app/actions/habits"
+import { cp } from "fs"
 
 
 
@@ -21,11 +22,13 @@ export default function LastWeekProgress({
       startDate: string
       habitId:number
     }) {
-
+  
+  const todayDate = getYYYYMMDD(new Date())
   const weekBeforeDate:string = getDateOf1WeekAgo()
-  const [isTodayDone, setIsTodayDone] = useState<boolean>(false)
+  
+  const [isTodayDone, setIsTodayDone] = useState<boolean>(completedDates.includes(todayDate))
 
-  const dateToChange = new Date().toISOString().split("T")[0];  
+  const dateToChange = getYYYYMMDD(new Date());  
 
   return(
     <div className="flex w-70">

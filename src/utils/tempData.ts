@@ -18,7 +18,7 @@ const userDetails = {
   username:"",
 }
 
-export const dummyDataForHabits:HabitDetailsFull[] = [
+export const dummyDataForHabits:any[] = [
   {
     id:1,
     userId:2, //both id will be sent by the server

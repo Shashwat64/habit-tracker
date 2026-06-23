@@ -32,8 +32,9 @@ export default function HabitsCards({ habitData, menuRef }: HabitsCard){
 
   const lastWeekDate = getDateOf1WeekAgo();
 
-  console.log(lastWeekDate)
-  const last7Completions = habitData.completedDates.filter(date=>getYYYYMMDD(date.completedOn).localeCompare(lastWeekDate)>=0);
+  const stringDateArr = habitData.completedDates.map(date=>getYYYYMMDD(date.completedOn))
+
+  const last7Completions = stringDateArr.filter(date=>date.localeCompare(lastWeekDate)>=0);
 
   const progressPercent = Math.round((last7Completions.length/7)*100);
   const streak = findingStreak(habitData.completedDates);
@@ -97,7 +98,7 @@ export default function HabitsCards({ habitData, menuRef }: HabitsCard){
               </div>
             </div>
           </div>
-          <LastWeekProgress habitId = {habitData.id} completedDates={habitData.completedDates} startDate={habitData.startDate} />
+          <LastWeekProgress habitId = {habitData.id} completedDates={stringDateArr} startDate={habitData.startDate} />
         </div>
         <div
           ref={menuRef}

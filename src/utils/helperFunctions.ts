@@ -56,9 +56,10 @@ export function findingStreak(dateObjArray:CompletedDate[]){
     return 0;
   }
 
-  const dateArray = dateObjArray.map(date=>date.completedOn)
+  const dateArray = dateObjArray.map(date=>getYYYYMMDD(date.completedOn))
 
-  console.log(dateArray)
+  console.log(dateArray[0])
+  console.log(typeof dateArray[0])
 
   const sortedDate = dateArray.sort((a:string,b:string)=>b.localeCompare(a))
 
