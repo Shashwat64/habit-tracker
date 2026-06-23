@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useContext } from "react"
 
 //helper functions
 import { capitalise, findingStreak, getDateOf1WeekAgo, getYYYYMMDD } from "../utils/helperFunctions"
+
 //component
 import LastWeekProgress from "./LastWeekProgress"
 import Habit3DotsMenu from "./Habit3DotsMenu"
@@ -11,23 +12,32 @@ import Habit3DotsMenu from "./Habit3DotsMenu"
 //types
 import type { DayData, HabitDetailsFull } from "../types/types"
 
+//context
+import { HabitModalContext } from "../context/HabitModalContext"
+
 //icons
 import { EllipsisVertical, Check} from "lucide-react" 
 
 type HabitsCard = { 
   habitData: HabitDetailsFull
-  threeDotsMenu:number
-  setThreeDotsMenu:React.Dispatch<React.SetStateAction<number>> 
   menuRef?: React.RefObject<HTMLDivElement | null>
 }
 
-export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu, menuRef }: HabitsCard){
+
+
+export default function HabitsCards({ habitData, menuRef }: HabitsCard){
 
   const lastWeekDate = getDateOf1WeekAgo()
   const last7Completions = habitData.completedDates.filter(date=>date.localeCompare(lastWeekDate)>=0)
 
   const progressPercent = Math.round((last7Completions.length/7)*100)
   const streak = findingStreak(habitData.completedDates)
+
+  const context = useContext(HabitModalContext);
+
+  if (!context) return null;
+
+  const {threeDotsMenu, setThreeDotsMenu} = context
 
   // to close the 3 dots menu
   useEffect(() => {
@@ -88,7 +98,7 @@ export default function HabitsCards({ habitData, threeDotsMenu, setThreeDotsMenu
           className="relative bg-primary-hover p-1 rounded-lg ml-6"
         >
           {threeDotsMenu === habitData.id && (
-            <Habit3DotsMenu habitData={habitData} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} />
+            <Habit3DotsMenu habitData={habitData} />
           )}
 
           <EllipsisVertical

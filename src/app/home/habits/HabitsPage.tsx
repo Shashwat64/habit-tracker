@@ -8,6 +8,8 @@ import { Plus } from "lucide-react"
 //types
 import type { DayData, HabitDetailsFull } from "@/src/types/types" 
 
+//context
+import { HabitModalProvider } from "@/src/context/HabitModalContext"
 
 //components
 import HabitsCard from "@/src/Components/HabitsCard"
@@ -17,7 +19,7 @@ import ManageHabitModal from "@/src/Components/ManageHabitModal"
 
 export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
-  const [isAddHabitOpen, setIsAddHabitOpen] = useState<boolean>(false)
+  const [isHabitModalOpen, setIsHabitModalOpen] = useState<boolean>(false)
 
   const [threeDotsMenu, setThreeDotsMenu] = useState<number>(-1)
   const menuRef = useRef<HTMLDivElement>(null);
@@ -40,8 +42,6 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
       router.replace('?filter=all')
     }
   }, [searchParams, router])
-
-  console.log(habits);
 
   //filtering based on the Status
   habits = habits.filter(habit =>
@@ -69,7 +69,12 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
   return (
     <main className="p-10">
-      {isAddHabitOpen && <ManageHabitModal isAddHabitOpen={isAddHabitOpen} setIsAddHabitOpen={setIsAddHabitOpen}/>}
+      <HabitModalProvider   
+        threeDotsMenu={threeDotsMenu}
+        setThreeDotsMenu={setThreeDotsMenu}
+        isHabitModalOpen={isHabitModalOpen}
+        setIsHabitModalOpen={setIsHabitModalOpen}>
+      {isHabitModalOpen && <ManageHabitModal isHabitModalOpen={isHabitModalOpen} setIsHabitModalOpen={setIsHabitModalOpen}/>}
       <section className="flex justify-between items-end">
         <div>
           <h1 className="text-2xl font-bold">Habits</h1>
@@ -85,7 +90,7 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg hover:scale-105 active:scale-95" onClick={()=>setIsAddHabitOpen(prev=>!prev)}> <Plus /> Add Habit</button>
+          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg hover:scale-105 active:scale-95" onClick={()=>setIsHabitModalOpen(prev=>!prev)}> <Plus /> Add Habit</button>
         </div>
       </section>
 
@@ -109,10 +114,10 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
       <section className="flex flex-col gap-3">
         {habits.map((data:HabitDetailsFull, i:number)=>
-          <HabitsCard key={i} habitData={data} threeDotsMenu={threeDotsMenu} setThreeDotsMenu={setThreeDotsMenu} menuRef={threeDotsMenu === data.id ? menuRef : undefined} />)
+          <HabitsCard key={i} habitData={data}  menuRef={threeDotsMenu === data.id ? menuRef : undefined} />)
         }
       </section>
-
+      </HabitModalProvider>
     </main>
   )
 }

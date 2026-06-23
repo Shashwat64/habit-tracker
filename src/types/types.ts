@@ -32,3 +32,10 @@ export type UserDetails = {
   username: string,
   id: number,
 }
+
+export type ManageHabitContext = {
+  threeDotsMenu:number
+  setThreeDotsMenu:React.Dispatch<React.SetStateAction<number>> 
+  isHabitModalOpen:boolean
+  setIsHabitModalOpen:React.Dispatch<React.SetStateAction<boolean>>
+}

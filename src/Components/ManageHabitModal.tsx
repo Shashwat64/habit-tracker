@@ -5,12 +5,12 @@ import { useEffect } from "react"
 import { addHabit, editHabit } from "@/src/app/actions/habits"
 
 type ManageHabitModalProps = {
-  isAddHabitOpen: boolean
-  setIsAddHabitOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isHabitModalOpen: boolean
+  setIsHabitModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   habitId?:number
 }
 
-export default function ManageHabitModal({isAddHabitOpen, setIsAddHabitOpen, habitId=-1}:ManageHabitModalProps ){
+export default function ManageHabitModal({isHabitModalOpen, setIsHabitModalOpen, habitId=-1}:ManageHabitModalProps ){
 
   const isEdit = habitId === -1;
 
@@ -32,12 +32,12 @@ export default function ManageHabitModal({isAddHabitOpen, setIsAddHabitOpen, hab
       await editHabit(habitId, data)
     }
 
-    setIsAddHabitOpen(false)
+    setIsHabitModalOpen(false)
   }
 
   
   return(
-    <section className="fixed inset-0 bg-black/60 z-10 flex items-center justify-evenly" onClick={e=>(setIsAddHabitOpen(false))}>
+    <section className="fixed inset-0 bg-black/60 z-10 flex items-center justify-evenly" onClick={e=>(setIsHabitModalOpen(false))}>
       <div 
         onClick={(e) => e.stopPropagation()}
         className="h-150 flex flex-col w-120 bg-background rounded-xl p-6"
@@ -45,7 +45,7 @@ export default function ManageHabitModal({isAddHabitOpen, setIsAddHabitOpen, hab
         <div className="relative">
         <X 
           className="absolute right-0 rounded-md hover:bg-red-400"
-          onClick={e=>(setIsAddHabitOpen(false))}
+          onClick={e=>(setIsHabitModalOpen(false))}
         />
           <h2 className="text-2xl font-bold mb-3">{isEdit ? "Add" : "Edit"} habit</h2>
           <p className="text-muted text-sm">Create a new habit to start your journey.</p>
