@@ -20,6 +20,7 @@ import ManageHabitModal from "@/src/Components/ManageHabitModal"
 export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
   const [isHabitModalOpen, setIsHabitModalOpen] = useState<boolean>(false)
+  const [habitId, setHabitId] = useState<number>(-1)
 
   const [threeDotsMenu, setThreeDotsMenu] = useState<number>(-1)
   const menuRef = useRef<HTMLDivElement>(null);
@@ -73,8 +74,11 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
         threeDotsMenu={threeDotsMenu}
         setThreeDotsMenu={setThreeDotsMenu}
         isHabitModalOpen={isHabitModalOpen}
-        setIsHabitModalOpen={setIsHabitModalOpen}>
-      {isHabitModalOpen && <ManageHabitModal isHabitModalOpen={isHabitModalOpen} setIsHabitModalOpen={setIsHabitModalOpen}/>}
+        setIsHabitModalOpen={setIsHabitModalOpen}
+        habitId = {habitId} 
+        setHabitId = {setHabitId}
+        >
+      {isHabitModalOpen && <ManageHabitModal/>}
       <section className="flex justify-between items-end">
         <div>
           <h1 className="text-2xl font-bold">Habits</h1>
@@ -90,7 +94,10 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg hover:scale-105 active:scale-95" onClick={()=>setIsHabitModalOpen(prev=>!prev)}> <Plus /> Add Habit</button>
+          <button className="flex gap-1 px-3 py-2 bg-primary rounded-lg hover:scale-105 active:scale-95" onClick={() => {
+            setHabitId(-1);
+            setIsHabitModalOpen(prev => !prev);
+          }}> <Plus /> Add Habit</button>
         </div>
       </section>
 

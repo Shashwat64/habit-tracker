@@ -38,4 +38,6 @@ export type ManageHabitContext = {
   setThreeDotsMenu:React.Dispatch<React.SetStateAction<number>> 
   isHabitModalOpen:boolean
   setIsHabitModalOpen:React.Dispatch<React.SetStateAction<boolean>>
+  habitId:number
+  setHabitId:React.Dispatch<React.SetStateAction<number>>
 }

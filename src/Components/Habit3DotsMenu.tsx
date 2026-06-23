@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { achieveHabit, unachieveHabit, deleteHabit  } from "../app/actions/habits";
 import ManageHabitModal from "./ManageHabitModal";
 
@@ -19,16 +19,20 @@ export default function Habit3DotsMenu({ habitData } : Habit3DotsMenu){
 
     if (!context) return null;
 
-    const {threeDotsMenu, setThreeDotsMenu, isHabitModalOpen, setIsHabitModalOpen, } = context
+    const {threeDotsMenu, setThreeDotsMenu, isHabitModalOpen, setIsHabitModalOpen, habitId,setHabitId } = context
+
+    console.log("habitId before useEffect", habitId);
+    useEffect(()=>{
+      setHabitId(habitData.id) 
+    },[])
+    console.log("habitId after useEffect", habitId);
   
   return( 
     <div className="absolute -bottom-40 -left-full z-50 flex flex-col bg-dropdown p-2 gap-1 rounded-md min-w-32 shadow-lg">
-      {isHabitModalOpen && <ManageHabitModal isHabitModalOpen={isHabitModalOpen} setIsHabitModalOpen={setIsHabitModalOpen}/>}
       <button 
         className="w-full text-left px-3 py-2 hover:bg-card-hover rounded-md"
         onClick={() => {
           setIsHabitModalOpen(true);
-          console.log("isHabitModalOpen is ", isHabitModalOpen)
           setThreeDotsMenu(-1);
         }}
       >

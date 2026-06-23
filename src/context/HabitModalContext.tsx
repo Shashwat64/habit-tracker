@@ -16,6 +16,8 @@ export function HabitModalProvider({
   setThreeDotsMenu,
   isHabitModalOpen,
   setIsHabitModalOpen,
+  habitId,
+  setHabitId,
   children,
 }: UserProviderProps) {
   return (
@@ -24,7 +26,9 @@ export function HabitModalProvider({
     threeDotsMenu,
     setThreeDotsMenu,
     isHabitModalOpen,
-    setIsHabitModalOpen,
+    setIsHabitModalOpen,  
+    habitId,
+    setHabitId,
   }}
 >
       {children}

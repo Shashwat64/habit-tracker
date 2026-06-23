@@ -1,18 +1,25 @@
 "use client"
 
 import { X } from "lucide-react" 
-import { useEffect } from "react"
+import { useEffect, useContext } from "react"
 import { addHabit, editHabit } from "@/src/app/actions/habits"
 
-type ManageHabitModalProps = {
-  isHabitModalOpen: boolean
-  setIsHabitModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  habitId?:number
-}
+//context
+import { HabitModalContext } from "../context/HabitModalContext"
 
-export default function ManageHabitModal({isHabitModalOpen, setIsHabitModalOpen, habitId=-1}:ManageHabitModalProps ){
 
-  const isEdit = habitId === -1;
+export default function ManageHabitModal(){
+
+  const context = useContext(HabitModalContext);
+
+  if(!context) return;
+
+  const {threeDotsMenu, setThreeDotsMenu, isHabitModalOpen, setIsHabitModalOpen, habitId,setHabitId } = context
+
+  const isEdit = habitId !== -1;
+
+  console.log("isEdit is " ,isEdit)
+  console.log("EDIT MODAL", habitId);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
@@ -27,11 +34,12 @@ export default function ManageHabitModal({isHabitModalOpen, setIsHabitModalOpen,
     }
 
     if(isEdit){
-      await addHabit(data)
-    }else{
       await editHabit(habitId, data)
+      setHabitId(-1);
+    }else{
+      await addHabit(data)
     }
-
+    
     setIsHabitModalOpen(false)
   }
 
@@ -47,7 +55,7 @@ export default function ManageHabitModal({isHabitModalOpen, setIsHabitModalOpen,
           className="absolute right-0 rounded-md hover:bg-red-400"
           onClick={e=>(setIsHabitModalOpen(false))}
         />
-          <h2 className="text-2xl font-bold mb-3">{isEdit ? "Add" : "Edit"} habit</h2>
+          <h2 className="text-2xl font-bold mb-3">{isEdit ? "Edit" : "Add"} habit</h2>
           <p className="text-muted text-sm">Create a new habit to start your journey.</p>
         </div>
         <form onSubmit={handleSubmit} className="mt-8 flex-1 flex flex-col gap-2 justify-between">
