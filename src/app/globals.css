@@ -30,14 +30,14 @@
 
   /* Sidebar, Main Content Cards, and Container Panels */
   --surface: #131522;
-  --card: #383e60;
+  --card: #2e3250;
   --card-hover: #2d366b;
   --card-active: #4f5580;
   --dropdown: #1a1d2e;
 
   /* Interactive Elements (Unselected Tabs/Buttons, Toggle Track) */
   --input: #191b2a;
-  --border: #1f2235;
+  --border: #363845;
 
   /* Typography */
   --text-primary: #e5edf7;    /* Crisp, slightly off-white */
@@ -47,6 +47,7 @@
   /* Accents (The Vibrant Purple/Indigo) */
   --primary: #7f38f0;         /* Timer ring, Active Sidebar/Tabs, Buttons */
   --primary-hover: #413398;
+  --subtle-hover: #514b79;
   --primary-glow: #705cf62b;  /* Transparent variation for active menu backgrounds */
 
   /* Secondary Accent (Status/Alerts) */
@@ -113,5 +114,9 @@
 
   .bg-primary-hover:hover {
     background-color: var(--primary-hover);
+  }
+
+  .bg-subtle-hover:hover {
+    background-color: var(--subtle-hover);
   }
 }

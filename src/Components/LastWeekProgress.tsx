@@ -37,13 +37,13 @@ export default function LastWeekProgress({
         const data = completedDates.find((info:string)=>info === next)
         return(
           <div key={i} 
-            className={`flex flex-col justify-between  items-center ${i===6 ? "bg-input w-18 rounded-lg hover:bg-card-hover hover:bg-(--card-hover)" : "w-12"}`}
+            className={`flex flex-col justify-center  items-center ${i===6 ? "bg-input w-18 rounded-lg hover:bg-card-hover hover:bg-(--card-hover)" : "w-12"}`}
             onClick={i === 6 ? ()=>{setIsTodayDone(prev=>!prev)} : undefined}
           >
 
             {i === 6 && (
             <div 
-              className="flex flex-col items-center"
+              className="flex flex-col justify-center items-center"
               onClick={async()=>{await editCompletedDates(habitId, dateToChange)}}
             >
               <p>Today</p>

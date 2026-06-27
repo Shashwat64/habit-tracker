@@ -72,7 +72,7 @@ export default function HabitsCards({ habitData, menuRef }: HabitsCard){
       <div className="bg-card rounded-2xl py-4 px-6 flex items-center">
         
         <div className="flex justify-between flex-1">
-          <div className="flex flex-col justify-between w-30">
+          <div className="flex flex-col justify-between min-w-0 w-1/7">
             <h2 className="font-bold">{habitData.name}</h2>
             <p className="text-secondary text-sm">{habitData.goal}</p>
           </div>

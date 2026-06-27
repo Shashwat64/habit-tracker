@@ -53,7 +53,7 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
   habits = habits.filter(habit=>
     habit.name.toLowerCase().includes(search.toLowerCase()) || 
     habit.goal.toLowerCase().includes(search.toLowerCase()) || 
-    habit.details.toLowerCase().includes(search.toLowerCase())
+    habit.details?.toLowerCase().includes(search.toLowerCase())
   )
 
 

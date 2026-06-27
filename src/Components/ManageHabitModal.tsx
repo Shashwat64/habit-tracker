@@ -110,7 +110,7 @@ export default function ManageHabitModal({habits}:{habits:HabitDetailsFull[]}){
           <label>
             Details
             <textarea 
-              name="detail"
+              name="details"
               className="w-full h-25 rounded-lg bg-input mt-2 px-4 py-2"
               placeholder="Read 10 pages of Thus Spake Zarathustra by Friedrich Nietzsche"
               value={formData.details}

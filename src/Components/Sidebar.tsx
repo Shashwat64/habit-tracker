@@ -8,8 +8,9 @@ import { useState, useRef, useEffect } from "react";
 
 import { useUser } from "@/src/context/UserContext";
 
-import { Settings, UserRoundPen, LogOut } from "lucide-react"
+import { Settings, UserRoundPen, LogOut, ChevronDown } from "lucide-react"
 import type { LucideIcon } from "lucide-react";
+
 
 
 
@@ -20,7 +21,7 @@ const sideNavData = [
     icon: "LayoutDashboard"
   },
   {
-    title: "Habit",
+    title: "Habits",
     href:"/home/habits",
     icon: "ClipboardCheck"
   },
@@ -117,14 +118,20 @@ export default function Sidebar(){
           )}
 
           <div 
-            className="flex items-center gap-3 py-3 px-2 ml-2 rounded-lg border-2 border-border hover:bg-card bg-primary-hover"
+            className="flex items-center gap-3 py-3 px-2 ml-2 rounded-lg border-2 border-border  bg-subtle-hover"
             onClick={(e)=>{setIsDropdown(prev => !prev);}}
           >
-            <Settings className="h-8 w-8"/>
+            <div className="text-2xl font-bold bg-primary w-10 h-10 flex items-center justify-center rounded-lg">
+              {/* to do: have to add profile option too */}
+              <p>
+                {userDetails.firstName.slice(0,1).toUpperCase()}{userDetails.lastName.slice(0,1).toUpperCase()}
+              </p>
+            </div>
             <div className="ml-1">
               <p>{userDetails.firstName} {userDetails.lastName}</p>
               <p className="text-secondary text-sm">{userDetails.email}</p>
             </div>
+            <ChevronDown className={`ml-auto mr-2 transition-all duration-200 ${isDropdown ? "rotate-180" : "rotate-0"}`}/>
           </div>      
         </div>
     </nav>
