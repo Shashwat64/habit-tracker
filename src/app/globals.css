@@ -52,6 +52,20 @@
 
   /* Secondary Accent (Status/Alerts) */
   --accent-orange: #f59e0b;   /* Used for the small session dot indicators */
+
+  /* Timer color*/
+  --focus-ring: #7f38f0;
+  --focus-ring-bg: #3a2d63;
+  --focus-card: #2e3250;
+
+
+  --break-ring: #4fd1c5;
+  --break-card: #22343a;
+  --break-ring-bg: #214d49;
+
+  --long-break-ring: #fbbf24;
+  --long-break-ring-bg: #5b4720;
+  --long-break-card: #393226;
 }
 
 /* =========================

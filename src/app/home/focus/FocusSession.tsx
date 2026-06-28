@@ -4,14 +4,20 @@ import { ChevronDown } from "lucide-react";
 
 import { useState } from "react";
 
-import CircularTimer from "./CircularTimer";
+import CircularTimer from "./(focus-session)/CircularTimer";
 
 
 const dummyCategory = ["Coding", "DSA", "Project"]
 
+
+
 export default function FocusSession(){
-  const [timeLeft, setTimeLeft] = useState<number>(1500); //value should be durationInSeconds
+  const [timeLeft, setTimeLeft] = useState<number>(1200); //value should be durationInSeconds
+  const [totalTime, setTotalTime] = useState<number>(1200); //value should be durationInSeconds
+
+
   const [isRunning, setIsRunning] = useState<boolean>(false); 
+  const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
 
   return(
     <div className=" bg-card w-1/2 h-full rounded-lg p-5 border-2 border-border">
@@ -39,9 +45,24 @@ export default function FocusSession(){
         <hr className="my-4 border-gray-600"/>
       </div>
       <div className="flex flex-col items-center justify-center">
+        <CircularTimer 
+          durationInSeconds={totalTime} 
+          width={250} 
+          height={250} 
+          timeLeft={timeLeft} 
+          setTimeLeft={setTimeLeft} 
+          isRunning={isRunning} 
+          setIsRunning={setIsRunning} 
+          timerMode={timerMode}
+          totalTime={totalTime}
+          setTotalTime={setTotalTime}
+        />
+        <div>
 
-        <CircularTimer durationInSeconds={1500} width={300} height={300} timeLeft={timeLeft} setTimeLeft={setTimeLeft}/>
+        </div>
       </div>
+
+      
     </div>
   )
 }
