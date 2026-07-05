@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
-import { achieveHabit, unachieveHabit, deleteHabit  } from "../app/actions/habits";
-import ManageHabitModal from "./ManageHabitModal";
+import { achieveHabit, unachieveHabit, deleteHabit  } from "@/src/app/actions/habits";
+import ManageHabitModal from "@/src/app/home/habits/ManageHabitModal";
 
-import type { HabitDetailsFull } from "../types/types";
+import type { HabitDetailsFull } from "@/src/types/types";
 
 //context
-import { HabitModalContext } from "../context/HabitModalContext"
+import { HabitModalContext } from "@/src/context/HabitModalContext"
 
 
 type Habit3DotsMenu = {

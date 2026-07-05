@@ -3,17 +3,17 @@
 import { useEffect, useRef, useContext } from "react"
 
 //helper functions
-import { capitalise, findingStreak, getDateOf1WeekAgo, getYYYYMMDD } from "../utils/helperFunctions"
+import { capitalise, findingStreak, getDateOf1WeekAgo, getYYYYMMDD } from "@/src/utils/helperFunctions"
 
 //component
-import LastWeekProgress from "./LastWeekProgress"
+import LastWeekProgress from "@/src/app/home/habits/LastWeekProgress"
 import Habit3DotsMenu from "./Habit3DotsMenu"
 
 //types
-import type { DayData, HabitDetailsFull } from "../types/types"
+import type { DayData, HabitDetailsFull } from "@/src/types/types"
 
 //context
-import { HabitModalContext } from "../context/HabitModalContext"
+import { HabitModalContext } from "@/src/context/HabitModalContext"
 
 //icons
 import { EllipsisVertical, Check} from "lucide-react" 

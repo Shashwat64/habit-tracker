@@ -12,12 +12,14 @@ import type { DayData, HabitDetailsFull } from "@/src/types/types"
 import { HabitModalProvider } from "@/src/context/HabitModalContext"
 
 //components
-import HabitsCard from "@/src/Components/HabitsCard"
-import ManageHabitModal from "@/src/Components/ManageHabitModal"
+import HabitsCard from "@/src/app/home/habits/HabitsCard"
+import ManageHabitModal from "@/src/app/home/habits/ManageHabitModal"
 
 
 
 export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
+
+  console.log(habits)
 
   const [isHabitModalOpen, setIsHabitModalOpen] = useState<boolean>(false)
   const [habitId, setHabitId] = useState<number>(-1)

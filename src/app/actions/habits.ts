@@ -30,13 +30,13 @@ export async function getUserDetails(){
 
 
   const userDetails: UserDetails = {
-  createdAt: result.rows[0].created_at,
-  email: result.rows[0].email,
-  firstName: result.rows[0].first_name,
-  lastName: result.rows[0].last_name,
-  username: result.rows[0].username,
-  id: result.rows[0].id,
-};
+    createdAt: result.rows[0].created_at,
+    email: result.rows[0].email,
+    firstName: result.rows[0].first_name,
+    lastName: result.rows[0].last_name,
+    username: result.rows[0].username,
+    id: result.rows[0].id,
+  };
   return userDetails;
 }
 

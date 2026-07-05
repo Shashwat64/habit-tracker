@@ -49,3 +49,15 @@ export type ManageHabitContext = {
   habitId:number
   setHabitId:React.Dispatch<React.SetStateAction<number>>
 }
+
+//Focus tab
+
+export type FocusCategories = {
+  id:number
+  userId: number
+
+  name:string
+  color: string
+
+  createdAt: string
+}

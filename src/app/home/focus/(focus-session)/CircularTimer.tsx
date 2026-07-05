@@ -14,8 +14,11 @@ type CircularTimer = {
   isRunning:boolean
   setIsRunning: React.Dispatch<React.SetStateAction<boolean>>
   timerMode: "focus" | "break" | "longBreak"
+  setTimerMode: React.Dispatch<React.SetStateAction<"focus" | "break" | "longBreak">>
   totalTime:number
   setTotalTime: React.Dispatch<React.SetStateAction<number>>
+  currectSession:number
+  setCurrectSession: React.Dispatch<React.SetStateAction<number>>
 }
 
 const timerColor={
@@ -36,7 +39,7 @@ const timerColor={
   },
 }
 
-export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft, width, height, isRunning, setIsRunning, timerMode, totalTime, setTotalTime}:CircularTimer){
+export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft, width, height, isRunning, setIsRunning, timerMode, setTimerMode, totalTime, setTotalTime, currectSession, setCurrectSession}:CircularTimer){
   
   const [timerState, setTimerState] = useState<"idle" | "running">("idle");
 
@@ -61,6 +64,8 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
   const circumference = 2 * Math.PI * radius;
 
   const progress = timeLeft/durationInSeconds;
+
+  const buttonClass = "flex justify-center gap-2 bg-primary py-2 w-50 border border-border rounded-md transition-all duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] active:brightness-95 cursor-pointer"
 
   return(
     <div className="flex flex-col items-center">
@@ -99,55 +104,70 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
 
       <div className="flex flex-col items-center">
         <div className="flex items-center mb-6">
-        <button 
-          className="mx-2 border border-border bg-surface p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={()=>{
-            if(totalTime>=300 && timeLeft>=300){
-              setTotalTime(prev=>prev-300)
-              setTimeLeft(prev=>prev-300)
-            }else{
-              setTimerState("idle");
-              setIsRunning(false);
-              //have to add function that will add session here
-              setTimeLeft(totalTime)
-            }
-          }}
-        ><Minus /></button>
+          <button 
+            className="mx-2 border border-border bg-surface p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] active:brightness-95 cursor-pointer"
+            onClick={()=>{
+              if(totalTime>=300 && timeLeft>=300){
+                setTotalTime(prev=>prev-300)
+                setTimeLeft(prev=>prev-300)
+              }else{
+                setTimerState("idle");
+                setIsRunning(false);
+                //have to add function that will add session here
+                setTimeLeft(totalTime)
+              }
+            }}
+          ><Minus /></button>
 
-        <div className="bg-input py-2 px-15 rounded-lg">{totalTime/60} mins</div>
+          <div className="bg-input w-50 flex justify-center py-2 px-15 rounded-lg">{totalTime/60} mins</div>
 
-        <button 
-          disabled={totalTime>=3600}
-          className="mx-2 border border-border bg-surface p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={()=>{
-            if(totalTime<=3600){
-              setTotalTime(prev=>prev+300)
-              setTimeLeft(prev=>prev+300)
-            }
-          }}
-        ><Plus /></button>
-      </div>
+          <button 
+            disabled={totalTime>=3600}
+            className="mx-2 border border-border bg-surface p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] active:brightness-95 cursor-pointer"
+            onClick={()=>{
+              if(totalTime<=3600){
+                setTotalTime(prev=>prev+300)
+                setTimeLeft(prev=>prev+300)
+              }
+            }}
+          ><Plus /></button>
+        </div>
 
-      {timerState==="idle" && !isRunning ? 
+        {timerState==="idle" && !isRunning ? 
           <div>
             <button 
-              className="flex justify-center gap-2 bg-primary py-2 w-50 border border-border rounded-md"
+              className={buttonClass}
               onClick={()=>{
                 setIsRunning(true); 
                 setTimerState("running");
               }}
             ><Play /> Start</button>
           </div>
-          :
+          : timerMode === "focus" ?
+          /* this will show during focus session */
           <div>
             <button 
-              className="flex justify-center gap-2 bg-primary py-2 w-50 border border-border rounded-md"
+              className={buttonClass}
               onClick={()=>{
+                setCurrectSession(prev=>prev<4 ? prev+1 : 1);
+                setTimerMode(currectSession === 4 ? "longBreak" : "break");
+                setTimeLeft(currectSession === 4 ? 900 : 300);
+                setTotalTime(currectSession === 4 ? 900 : 300);
+              }}
+            ><Coffee/> Finish Now</button>
+          </div>
+          :
+          /* This will show during break session */
+          <div>
+            <button 
+              className={buttonClass}
+              onClick={()=>{
+                setTimerMode("focus") 
                 setIsRunning(false); 
                 setTimerState("idle");
                 setTimeLeft(totalTime);
               }}
-            ><Coffee /> Finish Now</button>
+            ><Coffee /> End Break</button>
           </div>
         }
       </div>
