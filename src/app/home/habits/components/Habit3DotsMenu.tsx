@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { achieveHabit, unachieveHabit, deleteHabit  } from "@/src/app/actions/habits";
-import ManageHabitModal from "@/src/app/home/habits/ManageHabitModal";
+import ManageHabitModal from "@/src/app/home/habits/components/ManageHabitModal";
 
 import type { HabitDetailsFull } from "@/src/types/types";
 

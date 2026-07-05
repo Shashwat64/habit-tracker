@@ -4,11 +4,11 @@ import { Check, X } from "lucide-react"
 import { useState } from "react"
 
 //helper functions
-import { getDayName, getDateAfterXDays, getDateOf1WeekAgo, isOneDayApart, getYYYYMMDD } from "../../../utils/helperFunctions"
+import { getDayName, getDateAfterXDays, getDateOf1WeekAgo, isOneDayApart, getYYYYMMDD } from "../../../../utils/helperFunctions"
 
-import type { DayData, HabitDetails } from "../../../types/types"
+import type { DayData, HabitDetails } from "../../../../types/types"
 
-import { editCompletedDates } from "../../actions/habits"
+import { editCompletedDates } from "../../../actions/habits"
 import { cp } from "fs"
 
 

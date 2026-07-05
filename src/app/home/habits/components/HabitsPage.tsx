@@ -12,8 +12,8 @@ import type { DayData, HabitDetailsFull } from "@/src/types/types"
 import { HabitModalProvider } from "@/src/context/HabitModalContext"
 
 //components
-import HabitsCard from "@/src/app/home/habits/HabitsCard"
-import ManageHabitModal from "@/src/app/home/habits/ManageHabitModal"
+import HabitsCard from "@/src/app/home/habits/components/HabitsCard"
+import ManageHabitModal from "@/src/app/home/habits/components/ManageHabitModal"
 
 
 
@@ -42,7 +42,7 @@ export default function HabitsPage({ habits } : { habits:HabitDetailsFull[] }) {
 
   useEffect(() => {
     if (!searchParams.get('filter')) {
-      router.replace('?filter=all')
+      router.replace('?filter=active')
     }
   }, [searchParams, router])
 

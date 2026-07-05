@@ -4,7 +4,7 @@ import { ChevronDown, Divide } from "lucide-react";
 
 import { useState } from "react";
 
-import CircularTimer from "./(focus-session)/CircularTimer";
+import CircularTimer from "./components/CircularTimer";
 
 
 const dummyCategory = ["Coding", "DSA", "Project"]

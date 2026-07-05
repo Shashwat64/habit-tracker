@@ -1,7 +1,7 @@
 // app/home/habits/page.tsx
 
 import { getHabits, getCompletedDates } from "@/src/app/actions/habits";
-import HabitsPage from "./HabitsPage";
+import HabitsPage from "./components/HabitsPage";
 
 
 

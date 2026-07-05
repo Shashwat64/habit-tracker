@@ -6,7 +6,7 @@ import { useEffect, useRef, useContext } from "react"
 import { capitalise, findingStreak, getDateOf1WeekAgo, getYYYYMMDD } from "@/src/utils/helperFunctions"
 
 //component
-import LastWeekProgress from "@/src/app/home/habits/LastWeekProgress"
+import LastWeekProgress from "@/src/app/home/habits/components/LastWeekProgress"
 import Habit3DotsMenu from "./Habit3DotsMenu"
 
 //types

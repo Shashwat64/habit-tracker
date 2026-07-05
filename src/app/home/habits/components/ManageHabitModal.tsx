@@ -5,7 +5,7 @@ import { useState, useContext } from "react"
 import { addHabit, editHabit } from "@/src/app/actions/habits"
 
 //context
-import { HabitModalContext } from "../../../context/HabitModalContext"
+import { HabitModalContext } from "../../../../context/HabitModalContext"
 
 //types
 import type { HabitDetailsFull } from "@/src/types/types" 
