@@ -70,7 +70,7 @@ export default function ManageHabitModal({habits}:{habits:HabitDetailsFull[]}){
     <section className="fixed inset-0 bg-black/60 z-10 flex items-center justify-evenly" onClick={e=>(setIsHabitModalOpen(false))}>
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="h-150 flex flex-col w-120 bg-background rounded-xl p-6"
+        className="h-150 flex flex-col w-120 bg-background rounded-xl p-6 border border-border"
       >
         <div className="relative">
         <X 
@@ -130,7 +130,7 @@ export default function ManageHabitModal({habits}:{habits:HabitDetailsFull[]}){
             </select>
           </label>
 
-          <button className="self-end bg-primary px-4 py-2 rounded-lg">Add habit</button>
+          <button className="self-end bg-primary px-4 py-2 rounded-lg">{isEdit ? "Edit" : "Add"} habit</button>
 
         </form>
       </div>

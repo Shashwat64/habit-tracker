@@ -71,7 +71,7 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
     <div className="flex flex-col items-center">
       <h2 className="text-center font-bold text-2xl mt-4">{timerMode==="focus" ? "Focus" : timerMode==="break" ? "Break" : "Long Break"}</h2>
       <div className="relative w-[width] ">
-        <h2 className="text-4xl font-bold z-10 absolute inset-0 flex items-center tabular-nums justify-center">{String(Math.floor(timeLeft/60)).padStart(2, "0")} : {String(timeLeft % 60).padStart(2, "0")}</h2>
+        <h2 className="text-4xl font-bold absolute inset-0 flex items-center tabular-nums justify-center">{String(Math.floor(timeLeft/60)).padStart(2, "0")} : {String(timeLeft % 60).padStart(2, "0")}</h2>
         <svg 
           width={width}
           height={height}

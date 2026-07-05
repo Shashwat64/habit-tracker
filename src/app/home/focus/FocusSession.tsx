@@ -5,6 +5,7 @@ import { ChevronDown, Divide } from "lucide-react";
 import { useState } from "react";
 
 import CircularTimer from "./components/CircularTimer";
+import ModifyCategoryModal from "./components/ModifyCategoryModal";
 
 
 const dummyCategory = ["Coding", "DSA", "Project"]
@@ -20,14 +21,11 @@ export default function FocusSession(){
 
   const [isRunning, setIsRunning] = useState<boolean>(false); 
   const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
-  const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(true); //make this false
 
   return(
     <div className=" flex flex-col bg-card w-1/2 h-full rounded-lg p-5 border-2 border-border">
-      {isCategoryOpen && 
-      <div>
-        
-      </div>}
+      { isCategoryOpen && <ModifyCategoryModal setIsCategoryOpen={setIsCategoryOpen}/> }
       <div className="flex flex-col">
         <h2 className="text-xl font-bold mb-3">Focus Session</h2>
         <label className="flex flex-col gap-2">
