@@ -1,6 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect, SubmitEvent } from "react"
+
+
+import { X } from "lucide-react" 
 
 import type { FocusCategories } from "@/src/types/types";
+
+import { addFocusCategory, editFocusCategory} from "@/src/app/actions/focus";
 
 type CategoryColor =
   | "red"
@@ -25,13 +30,13 @@ export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:Mo
   if(categoryInfo?.id){
     isEdit = true
   }
+  const [selectedColor, setSelectedColor] = useState<CategoryColor>((categoryInfo?.color as CategoryColor) ?? "red")
 
     const [formData, setFormData] = useState({
       name: categoryInfo?.name ||  "",
-      color: categoryInfo?.color || "",
+      color: categoryInfo?.color || selectedColor,
     });
 
-    const [selectedColor, setSelectedColor] = useState<CategoryColor>("red")
 
 
     const colors:CategoryColor[] = ["red","orange","yellow","green","cyan","blue","purple","pink","brown","gray"];
@@ -60,19 +65,45 @@ export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:Mo
         ...prev,
         [name]: value,
       }));
+    };
+
+    async function handleSubmit(e: SubmitEvent<HTMLFormElement>){
+      e.preventDefault()
+
+      const formData = new FormData(e.currentTarget)
+
+      const data = {
+        name: formData.get("name") as string,
+        color: selectedColor as CategoryColor,
+      }
+
+      console.log("Data in Modal is ", data)
+
+      if(categoryInfo?.id){
+        await editFocusCategory(data, categoryInfo?.id)
+      }else{
+        await addFocusCategory(data)
+      }
+      
+      setIsCategoryOpen(false)
     }
+
 
 
   return(
     <section className="fixed inset-0 bg-black/60 z-10 flex items-center justify-evenly" onClick={e=>(setIsCategoryOpen(false))}>
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="min-h-100 flex flex-col w-120 bg-background rounded-xl p-6 z-50 border border-border"
+        className="relative min-h-100 flex flex-col w-120 bg-background rounded-xl p-6 z-50 border border-border"
       >
+        <X 
+              className="absolute right-4 rounded-md hover:bg-red-400"
+              onClick={e=>(setIsCategoryOpen(false))}
+            />
         <h2 className="text-lg font-bold">{isEdit ? "Edit" : "Add"} Category</h2>
         <h3 className="text-sm text-secondary">{isEdit ? "Update the name or color of this category." : "Create a new category to organize your habits."}</h3>
-        <form /* onSubmit={} */ className="mt-8 flex-1 flex flex-col gap-10">
-          <label>
+        <form onSubmit={handleSubmit} className="mt-8 flex-1 flex flex-col gap-10">
+          <label >
             Category Name
             <input 
               type="text" 
@@ -108,7 +139,7 @@ export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:Mo
             </div>
           </div>
 
-           <button className="self-end bg-primary px-4 py-2 rounded-lg">{isEdit ? "Edit" : "Add"} habit</button>
+           <button className="self-end bg-primary px-4 py-2 rounded-lg">{isEdit ? "Edit" : "Add"} Category</button>
         
         </form>
       </div>

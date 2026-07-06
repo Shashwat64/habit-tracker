@@ -1,7 +1,7 @@
 "use client"
 
 import { X } from "lucide-react" 
-import { useState, useContext } from "react"
+import { useState, useContext, SubmitEvent } from "react"
 import { addHabit, editHabit } from "@/src/app/actions/habits"
 
 //context
@@ -43,7 +43,7 @@ export default function ManageHabitModal({habits}:{habits:HabitDetailsFull[]}){
     }));
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>){
     e.preventDefault()
 
     const formData = new FormData(e.currentTarget)

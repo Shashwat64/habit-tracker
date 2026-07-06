@@ -7,12 +7,17 @@ import { useState } from "react";
 import CircularTimer from "./components/CircularTimer";
 import ModifyCategoryModal from "./components/ModifyCategoryModal";
 
-
-const dummyCategory = ["Coding", "DSA", "Project"]
-
+import type { FocusCategories } from "@/src/types/types";
 
 
-export default function FocusSession(){
+
+type FocusSessionProps = {
+  categories:FocusCategories[]
+}
+
+
+
+export default function FocusSession({categories}:FocusSessionProps){
   const [timeLeft, setTimeLeft] = useState<number>(1200); //value should be durationInSeconds
   const [totalTime, setTotalTime] = useState<number>(1200); //value should be durationInSeconds
 
@@ -22,6 +27,8 @@ export default function FocusSession(){
   const [isRunning, setIsRunning] = useState<boolean>(false); 
   const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(true); //make this false
+
+
 
   return(
     <div className=" flex flex-col bg-card w-1/2 h-full rounded-lg p-5 border-2 border-border">
@@ -37,7 +44,7 @@ export default function FocusSession(){
                 id="category" 
                 className="bg-input p-3 rounded-md appearance-none">
                 <option value="" disabled>Select a category</option>
-                {dummyCategory.map((cate, i)=><option key={i} className="" value={cate}>{cate}</option>)}
+                {categories.map((cate, i)=><option key={i} className="" value={cate.name}>{cate.name}</option>)}
               </select>
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2" />
             </div>
