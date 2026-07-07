@@ -91,7 +91,7 @@ export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:Mo
 
 
   return(
-    <section className="fixed inset-0 bg-black/60 z-10 flex items-center justify-evenly" onClick={e=>(setIsCategoryOpen(false))}>
+    <section className="fixed inset-0 bg-black/60 z-20 flex items-center justify-evenly" onClick={e=>(setIsCategoryOpen(false))}>
       <div 
         onClick={(e) => e.stopPropagation()}
         className="relative min-h-100 flex flex-col w-120 bg-background rounded-xl p-6 z-50 border border-border"
@@ -122,9 +122,9 @@ export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:Mo
             </h3>
 
             <div className="flex gap-5">
-              {colors.map((color) => (
+              {colors.map((color,i) => (
                 <button
-                  key={color}
+                  key={i}
                   type="button"
                   onClick={() => setSelectedColor(color)}
                   className={`

@@ -26,13 +26,12 @@ export async function getFocusCategory(){
     [userId]
   );
 
-  console.log("result in getFocusCategories", result)
-
   const focusCategories: FocusCategories[] = result.rows.map(cate=>({
     id:cate.id,
     userId:cate.user_id,
     name: cate.name,
     color: cate.colour,
+    isArchived: cate.is_archived,
     createdAt: cate.created_at,
   }));
 
@@ -75,6 +74,61 @@ export async function editFocusCategory(data: AddFocusCategoryProps, id:number) 
     WHERE id = $3 AND user_id = $3
     `,
     [name, color, id, userId]
+  )
+  revalidatePath("/home/focus");
+}
+
+export async function archivedFocusCategory(id:number) {
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) return;
+
+  const userId = session.user.id;
+  
+  await db.query(
+    `UPDATE focus_categories 
+      SET is_archived = TRUE
+    WHERE id = $1 AND user_id = $2
+    `,
+    [id, userId]
+  )
+  revalidatePath("/home/focus");
+}
+
+
+export async function unarchivedFocusCategory(id:number) {
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) return;
+
+  const userId = session.user.id;
+  
+  await db.query(
+    `UPDATE focus_categories 
+      SET is_archived = FALSE
+    WHERE id = $1 AND user_id = $2
+    `,
+    [id, userId]
+  )
+  revalidatePath("/home/focus");
+}
+
+
+export async function deleteFocusCategory(id:number) {
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) return;
+
+  const userId = session.user.id;
+  
+  await db.query(
+    `DELETE FROM focus_categories 
+    WHERE id = $1 AND user_id = $2
+    `,
+    [id, userId]
   )
   revalidatePath("/home/focus");
 }

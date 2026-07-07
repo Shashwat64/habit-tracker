@@ -59,5 +59,7 @@ export type FocusCategories = {
   name:string
   color: string
 
+  isArchived: boolean
+
   createdAt: string
 }

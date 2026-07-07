@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import CircularTimer from "./components/CircularTimer";
 import ModifyCategoryModal from "./components/ModifyCategoryModal";
+import ManageCategories from "./components/ManageCategories";
 
 import type { FocusCategories } from "@/src/types/types";
 
@@ -26,13 +27,15 @@ export default function FocusSession({categories}:FocusSessionProps){
 
   const [isRunning, setIsRunning] = useState<boolean>(false); 
   const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
-  const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(true); //make this false
+  const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false) //make this false
+  const [isManageCategoryOpen, setIsManageCategoryOpen] = useState<boolean>(true) //make this false
 
 
 
   return(
     <div className=" flex flex-col bg-card w-1/2 h-full rounded-lg p-5 border-2 border-border">
       { isCategoryOpen && <ModifyCategoryModal setIsCategoryOpen={setIsCategoryOpen}/> }
+      {isManageCategoryOpen && <ManageCategories setIsManageCategoryOpen={setIsManageCategoryOpen} categories={categories}/>} 
       <div className="flex flex-col">
         <h2 className="text-xl font-bold mb-3">Focus Session</h2>
         <label className="flex flex-col gap-2">
@@ -44,7 +47,7 @@ export default function FocusSession({categories}:FocusSessionProps){
                 id="category" 
                 className="bg-input p-3 rounded-md appearance-none">
                 <option value="" disabled>Select a category</option>
-                {categories.map((cate, i)=><option key={i} className="" value={cate.name}>{cate.name}</option>)}
+                {categories.filter(cate=>!cate.isArchived).map((cate, i)=><option key={i} className="" value={cate.name}>{cate.name}</option>)}
               </select>
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2" />
             </div>
@@ -54,12 +57,13 @@ export default function FocusSession({categories}:FocusSessionProps){
               >Add Category</button>
               
           </div>
-              <button
-                type="button"
-                className="mt-2 text-sm self-center p-1 text-primary hover:underline cursor-pointer "
-              >
-                Manage categories
-              </button>
+          <button
+            type="button"
+            className="mt-2 text-sm self-center p-1 text-primary hover:underline cursor-pointer"
+            onClick={()=>{setIsManageCategoryOpen(true)}}
+          >
+            Manage categories
+          </button>
         </label>
         <label className="flex flex-col gap-2 relative ">
           Title
@@ -91,7 +95,7 @@ export default function FocusSession({categories}:FocusSessionProps){
       </div>
        <hr className="my-4 border-gray-600"/>
       <div className=" py-2  flex-1 flex flex-col">
-          <h2 className="text-2xl mb-2">Today:</h2>
+        <h2 className="text-2xl mb-2">Today:</h2>
 
         <div className="flex justify-between">
           <p>Current Focus: {currectSession}/4</p>
