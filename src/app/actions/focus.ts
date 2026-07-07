@@ -71,7 +71,7 @@ export async function editFocusCategory(data: AddFocusCategoryProps, id:number) 
     `UPDATE focus_categories 
     SET  name = $1, 
       color = $2
-    WHERE id = $3 AND user_id = $3
+    WHERE id = $3 AND user_id = $4
     `,
     [name, color, id, userId]
   )

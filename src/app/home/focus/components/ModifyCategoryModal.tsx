@@ -26,7 +26,7 @@ type ModifyCategoryModalProps = {
 
 export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:ModifyCategoryModalProps){
 
-  
+ console.log("categoryInfo is ", categoryInfo) 
 
   let isEdit: boolean = false
   if(categoryInfo?.id){
@@ -96,12 +96,12 @@ export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:Mo
     <section className="fixed inset-0 bg-black/60 z-20 flex items-center justify-evenly" onClick={e=>(setIsCategoryOpen(false))}>
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="relative max-h-[80vh] flex flex-col w-120 bg-background rounded-xl p-6 z-50 border border-border overflow-y-auto"
+        className="relative min-100 flex flex-col w-120 bg-background rounded-xl p-6 z-50 border border-border overflow-y-auto"
       >
         <X 
-              className="absolute right-4 rounded-md hover:bg-red-400"
-              onClick={e=>(setIsCategoryOpen(false))}
-            />
+          className="absolute right-4 rounded-md hover:bg-red-400"
+          onClick={e=>(setIsCategoryOpen(false))}
+        />
         <h2 className="text-lg font-bold">{isEdit ? "Edit" : "Add"} Category</h2>
         <h3 className="text-sm text-secondary">{isEdit ? "Update the name or color of this category." : "Create a new category to organize your habits."}</h3>
         <form onSubmit={handleSubmit} className="mt-8 flex-1 flex flex-col gap-10">

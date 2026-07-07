@@ -19,6 +19,10 @@ type FocusSessionProps = {
 
 
 export default function FocusSession({categories}:FocusSessionProps){
+
+  const unarchievedCategories = categories.filter(cate=>!cate.isArchived)
+
+
   const [timeLeft, setTimeLeft] = useState<number>(1200); //value should be durationInSeconds
   const [totalTime, setTotalTime] = useState<number>(1200); //value should be durationInSeconds
 
@@ -28,12 +32,10 @@ export default function FocusSession({categories}:FocusSessionProps){
   const [isRunning, setIsRunning] = useState<boolean>(false); 
   const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false) //make this false
-  const [isManageCategoryOpen, setIsManageCategoryOpen] = useState<boolean>(true) //make this false
+  const [isManageCategoryOpen, setIsManageCategoryOpen] = useState<boolean>(false) //make this false
 
   const [sessionTitle, setSessionTitle] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
-
-
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(unarchievedCategories?.[0]?.id ?? null);
 
 
   useEffect(() => {
@@ -61,15 +63,22 @@ export default function FocusSession({categories}:FocusSessionProps){
           Category
           <div className="flex gap-2">
             <div className="relative flex flex-col gap-2 flex-1">
-              <select defaultValue=""
+              <select
                 value={selectedCategoryId ?? ""}
                 name="category" 
                 id="category" 
                 className="bg-input p-3 rounded-md appearance-none"
                 onChange={(e) => setSelectedCategoryId(Number(e.target.value))}
               >
-                <option value="" disabled>Select a category</option>
-                {categories.filter(cate=>!cate.isArchived).map((cate, i)=><option key={i} className="" value={cate.id}>{cate.name}</option>)}
+                {!selectedCategoryId && (
+                  <option value="" disabled>
+                    Select a category
+                  </option>
+                )}
+
+                {unarchievedCategories.map((cate, i)=><option key={i} className="" value={cate.id}>{cate.name}</option>)
+                
+                }
               </select>
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2" />
             </div>
