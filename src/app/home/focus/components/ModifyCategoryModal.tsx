@@ -26,6 +26,8 @@ type ModifyCategoryModalProps = {
 
 export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:ModifyCategoryModalProps){
 
+  
+
   let isEdit: boolean = false
   if(categoryInfo?.id){
     isEdit = true
@@ -94,7 +96,7 @@ export default function ModifyCategoryModal({setIsCategoryOpen, categoryInfo}:Mo
     <section className="fixed inset-0 bg-black/60 z-20 flex items-center justify-evenly" onClick={e=>(setIsCategoryOpen(false))}>
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="relative min-h-100 flex flex-col w-120 bg-background rounded-xl p-6 z-50 border border-border"
+        className="relative max-h-[80vh] flex flex-col w-120 bg-background rounded-xl p-6 z-50 border border-border overflow-y-auto"
       >
         <X 
               className="absolute right-4 rounded-md hover:bg-red-400"

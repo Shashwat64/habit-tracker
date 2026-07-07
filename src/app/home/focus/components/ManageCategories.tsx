@@ -58,7 +58,8 @@ export default function ManageCategories({setIsManageCategoryOpen, categories}:M
 
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="relative min-h-100 max-h-2/3 flex flex-col w-120 bg-background rounded-xl p-6 z-10 border border-border"
+          className="relative min-h-100 max-h-[80vh] overflow-y-auto flex flex-col w-120 bg-background rounded-xl p-6 z-10 border border-border"
+
       >
         <X 
           className="absolute right-4 rounded-md hover:bg-red-400"
@@ -67,21 +68,23 @@ export default function ManageCategories({setIsManageCategoryOpen, categories}:M
 
         <h2 className="text-lg font-bold mb-5">Manage Categories</h2>
 
-        {notArchivedCategories?.length == 0 && <div>
-            <p className="text-center">No category to show</p>
-        </div> }
+        <div className="flex flex-col flex-1 justify-between">
+          {notArchivedCategories?.length == 0 && <div>
+              <p className="text-center">No category to show</p>
+          </div> }
 
-        {notArchivedCategories.map((cate, i)=>(
-          <CategoryCard cate={cate} i={i}/> 
-        ))} 
-          {archivedCategories?.length > 0 && 
-            <div className="mt-auto">
-              <h3 className="text-center">Archived Categories</h3>
-              {archivedCategories.map((cate, i)=>(
-                <CategoryCard cate={cate} i={i}/> 
-              ))}        
-            </div>
-          }
+          {notArchivedCategories.map((cate, i)=>(
+            <CategoryCard cate={cate} i={i}/> 
+          ))} 
+            {archivedCategories?.length > 0 && 
+              <div className="mt-5">
+                <h3 className="text-center">Archived Categories</h3>
+                {archivedCategories.map((cate, i)=>(
+                  <CategoryCard cate={cate} i={i}/> 
+                ))}        
+              </div>
+            }
+        </div>
 
 
       </div>

@@ -2,7 +2,7 @@
 
 import { ChevronDown, Divide } from "lucide-react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CircularTimer from "./components/CircularTimer";
 import ModifyCategoryModal from "./components/ModifyCategoryModal";
@@ -30,11 +30,30 @@ export default function FocusSession({categories}:FocusSessionProps){
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false) //make this false
   const [isManageCategoryOpen, setIsManageCategoryOpen] = useState<boolean>(true) //make this false
 
+  const [sessionTitle, setSessionTitle] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+
+
+
+
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+
+    if (isCategoryOpen || isManageCategoryOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = originalOverflow;
+    }
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isCategoryOpen, isManageCategoryOpen]);
 
 
   return(
     <div className=" flex flex-col bg-card w-1/2 h-full rounded-lg p-5 border-2 border-border">
-      { isCategoryOpen && <ModifyCategoryModal setIsCategoryOpen={setIsCategoryOpen}/> }
+      {isCategoryOpen && <ModifyCategoryModal setIsCategoryOpen={setIsCategoryOpen}/>}
       {isManageCategoryOpen && <ManageCategories setIsManageCategoryOpen={setIsManageCategoryOpen} categories={categories}/>} 
       <div className="flex flex-col">
         <h2 className="text-xl font-bold mb-3">Focus Session</h2>
@@ -43,11 +62,14 @@ export default function FocusSession({categories}:FocusSessionProps){
           <div className="flex gap-2">
             <div className="relative flex flex-col gap-2 flex-1">
               <select defaultValue=""
+                value={selectedCategoryId ?? ""}
                 name="category" 
                 id="category" 
-                className="bg-input p-3 rounded-md appearance-none">
+                className="bg-input p-3 rounded-md appearance-none"
+                onChange={(e) => setSelectedCategoryId(Number(e.target.value))}
+              >
                 <option value="" disabled>Select a category</option>
-                {categories.filter(cate=>!cate.isArchived).map((cate, i)=><option key={i} className="" value={cate.name}>{cate.name}</option>)}
+                {categories.filter(cate=>!cate.isArchived).map((cate, i)=><option key={i} className="" value={cate.id}>{cate.name}</option>)}
               </select>
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2" />
             </div>
@@ -69,8 +91,10 @@ export default function FocusSession({categories}:FocusSessionProps){
           Title
           <input 
             placeholder="Solve 2 DSA Question"
+            value={sessionTitle}
             type="text" 
-            className="bg-input p-3 rounded-md appearance-none " 
+            className="bg-input p-3 rounded-md appearance-none" 
+            onChange={(e) => setSessionTitle(e.target.value)}
           />
         </label>
 
