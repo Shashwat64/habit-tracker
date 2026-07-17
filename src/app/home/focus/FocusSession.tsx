@@ -8,25 +8,32 @@ import CircularTimer from "./components/CircularTimer";
 import ModifyCategoryModal from "./components/ModifyCategoryModal";
 import ManageCategories from "./components/ManageCategories";
 
-import type { FocusCategories } from "@/src/types/types";
+import type { FocusCategories, FocusSession } from "@/src/types/types";
 
 
 
 type FocusSessionProps = {
   categories:FocusCategories[]
+  todaySessions: FocusSession[]
 }
 
 
 
-export default function FocusSession({categories}:FocusSessionProps){
+export default function FocusSession({categories, todaySessions}:FocusSessionProps){
 
   const unarchievedCategories = categories.filter(cate=>!cate.isArchived)
+  const focusSessions = todaySessions.filter(ses => ses.mode==="focus")
+
+
+  useEffect(()=>{
+    setCurrectSession(focusSessions.length%4);
+  },[focusSessions])
 
 
   const [timeLeft, setTimeLeft] = useState<number>(1200); //value should be durationInSeconds
   const [totalTime, setTotalTime] = useState<number>(1200); //value should be durationInSeconds
 
-  const [currectSession, setCurrectSession] = useState<number>(1); //value should be durationInSeconds
+  const [currectSession, setCurrectSession] = useState<number>(focusSessions.length); //value should be durationInSeconds
 
 
   const [isRunning, setIsRunning] = useState<boolean>(false); 
@@ -37,6 +44,7 @@ export default function FocusSession({categories}:FocusSessionProps){
   const [sessionTitle, setSessionTitle] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(unarchievedCategories?.[0]?.id ?? null);
 
+  
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
@@ -54,7 +62,7 @@ export default function FocusSession({categories}:FocusSessionProps){
 
 
   return(
-    <div className=" flex flex-col bg-card w-1/2 h-full rounded-lg p-5 border-2 border-border">
+    <section className=" flex flex-col bg-card w-1/2 h-full rounded-lg p-5 border-2 border-border">
       {isCategoryOpen && <ModifyCategoryModal setIsCategoryOpen={setIsCategoryOpen}/>}
       {isManageCategoryOpen && <ManageCategories setIsManageCategoryOpen={setIsManageCategoryOpen} categories={categories}/>} 
       <div className="flex flex-col">
@@ -124,6 +132,7 @@ export default function FocusSession({categories}:FocusSessionProps){
           setTotalTime={setTotalTime}
           currectSession={currectSession}
           setCurrectSession={setCurrectSession}
+          selectedCategoryId={selectedCategoryId}
         />
       </div>
        <hr className="my-4 border-gray-600"/>
@@ -136,6 +145,6 @@ export default function FocusSession({categories}:FocusSessionProps){
         </div>
       </div>
       
-    </div>
+    </section>
   )
 }

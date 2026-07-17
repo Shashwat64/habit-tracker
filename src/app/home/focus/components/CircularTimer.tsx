@@ -3,7 +3,11 @@
 import { useState, useEffect } from "react";
 
 
-import { Play, Coffee, Plus, Minus } from "lucide-react"
+import { Play, Coffee, Plus, Minus } from "lucide-react";
+
+import { addFocusSession } from "@/src/app/actions/focusSession";
+
+import type { FocusSessionData } from "@/src/types/types";
 
 type CircularTimer = {
   durationInSeconds:number
@@ -19,6 +23,7 @@ type CircularTimer = {
   setTotalTime: React.Dispatch<React.SetStateAction<number>>
   currectSession:number
   setCurrectSession: React.Dispatch<React.SetStateAction<number>>
+  selectedCategoryId:number | null
 }
 
 const timerColor={
@@ -39,7 +44,8 @@ const timerColor={
   },
 }
 
-export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft, width, height, isRunning, setIsRunning, timerMode, setTimerMode, totalTime, setTotalTime, currectSession, setCurrectSession}:CircularTimer){
+export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft, width, height, isRunning, setIsRunning, timerMode, setTimerMode, totalTime, setTotalTime, currectSession, setCurrectSession, selectedCategoryId}:CircularTimer){
+
   
   const [timerState, setTimerState] = useState<"idle" | "running">("idle");
 
@@ -48,11 +54,6 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
 
     const interval = setInterval(() => {
       setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          setIsRunning(false);
-          return 0;
-        }
         return prev - 1;
       });
     }, 1000);
@@ -65,13 +66,35 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
 
   const progress = timeLeft/durationInSeconds;
 
+  const actualDuration = totalTime - timeLeft;
+
   const buttonClass = "flex justify-center gap-2 bg-primary py-2 w-50 border border-border rounded-md transition-all duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] active:brightness-95 cursor-pointer"
+
+    async function handleSession(e){
+        const data:FocusSessionData = {
+          categoryId: selectedCategoryId as number,
+          mode: timerMode,
+
+          plannedDuration: totalTime,
+          actualDuration: actualDuration,
+
+          status: (timeLeft <=0 ? "completed" : "cancelled"),
+
+          startedAt: new Date(Date.now() - (totalTime - timeLeft) * 1000)
+        }
+
+        await addFocusSession(data);
+    }
 
   return(
     <div className="flex flex-col items-center">
-      <h2 className="text-center font-bold text-2xl mt-4">{timerMode==="focus" ? "Focus" : timerMode==="break" ? "Break" : "Long Break"}</h2>
+      <h2 className="text-center font-bold text-2xl mt-2">{timerMode==="focus" ? "Focus" : timerMode==="break" ? "Break" : "Long Break"} {timeLeft <0 ? " (Overtime)" : ""}</h2>
       <div className="relative w-[width] ">
-        <h2 className="text-4xl font-bold absolute inset-0 flex items-center tabular-nums justify-center">{String(Math.floor(timeLeft/60)).padStart(2, "0")} : {String(timeLeft % 60).padStart(2, "0")}</h2>
+        <h2 className="text-4xl font-bold absolute inset-0 flex items-center justify-center tabular-nums">
+          {`${timeLeft < 0 ? "+" : ""}${String(
+            Math.floor(Math.abs(timeLeft) / 60)
+          ).padStart(2, "0")}:${String(Math.abs(timeLeft) % 60).padStart(2, "0")}`}
+        </h2>
         <svg 
           width={width}
           height={height}
@@ -103,8 +126,9 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
 
 
       <div className="flex flex-col items-center">
-        <div className="flex items-center mb-6">
+        <div className="flex items-center mb-4">
           <button 
+            disabled={totalTime===300}
             className="mx-2 border border-border bg-surface p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] active:brightness-95 cursor-pointer"
             onClick={()=>{
               if(totalTime>=300 && timeLeft>=300){
@@ -145,27 +169,30 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
           </div>
           : timerMode === "focus" ?
           /* this will show during focus session */
-          <div>
+          <div
+          >
             <button 
               className={buttonClass}
-              onClick={()=>{
+              onClick={(e)=>{
                 setCurrectSession(prev=>prev<4 ? prev+1 : 1);
                 setTimerMode(currectSession === 4 ? "longBreak" : "break");
                 setTimeLeft(currectSession === 4 ? 900 : 300);
                 setTotalTime(currectSession === 4 ? 900 : 300);
+                handleSession(e);
               }}
-            ><Coffee/> Finish Now</button>
+            ><Coffee /> Finish Now</button>
           </div>
           :
           /* This will show during break session */
           <div>
             <button 
               className={buttonClass}
-              onClick={()=>{
+              onClick={(e)=>{
                 setTimerMode("focus") 
                 setIsRunning(false); 
                 setTimerState("idle");
                 setTimeLeft(totalTime);
+                handleSession(e);
               }}
             ><Coffee /> End Break</button>
           </div>

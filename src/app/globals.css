@@ -31,6 +31,7 @@
   /* Sidebar, Main Content Cards, and Container Panels */
   --surface: #131522;
   --card: #2e3250;
+  --card-light: #41476d;
   --card-hover: #2d366b;
   --card-active: #4f5580;
   --dropdown: #1a1d2e;
@@ -38,6 +39,7 @@
   /* Interactive Elements (Unselected Tabs/Buttons, Toggle Track) */
   --input: #191b2a;
   --border: #363845;
+  --border-light: #4e536e;
 
   /* Typography */
   --text-primary: #e5edf7;    /* Crisp, slightly off-white */
@@ -89,6 +91,10 @@
     background-color: var(--card);
   }
 
+  .bg-card-light {
+    background-color: var(--card-light);
+  }
+
   .bg-card-hover {
     background-color: var(--card-hover);
   }
@@ -120,6 +126,9 @@
 
   .border-border {
     border-color: var(--border);
+  }
+  .border-border-light {
+    border-color: var(--border-light);
   }
 
   .bg-primary {

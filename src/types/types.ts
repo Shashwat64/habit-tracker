@@ -1,3 +1,5 @@
+import { Timestamp } from "next/dist/server/lib/cache-handlers/types"
+
 export type DayData = {
   day:string
   status: 'done' | 'missed'
@@ -63,3 +65,20 @@ export type FocusCategories = {
 
   createdAt: string
 }
+
+export type FocusSession = {
+  id:number
+  userId: number
+
+  categoryId: number
+  mode: "focus" | "break" | "longBreak"
+
+  plannedDuration: number
+  actualDuration: number
+
+  status: "completed" | "cancelled"
+
+  startedAt: Date
+}
+
+export type FocusSessionData = Omit<FocusSession, "id" | "userId">

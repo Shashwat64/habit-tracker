@@ -102,8 +102,6 @@ export default function ManageCategories({setIsManageCategoryOpen, categories}:M
               </div>
             }
         </div>
-
-
       </div>
 
     </section>
