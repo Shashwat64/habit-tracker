@@ -70,7 +70,7 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
 
   const buttonClass = "flex justify-center gap-2 bg-primary py-2 w-50 border border-border rounded-md transition-all duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] active:brightness-95 cursor-pointer"
 
-    async function handleSession(e){
+    async function handleSession(){
         const data:FocusSessionData = {
           categoryId: selectedCategoryId as number,
           mode: timerMode,
@@ -171,14 +171,14 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
           /* this will show during focus session */
           <div
           >
-            <button 
+            <button
               className={buttonClass}
-              onClick={(e)=>{
+              onClick={()=>{
                 setCurrectSession(prev=>prev<4 ? prev+1 : 1);
                 setTimerMode(currectSession === 4 ? "longBreak" : "break");
                 setTimeLeft(currectSession === 4 ? 900 : 300);
                 setTotalTime(currectSession === 4 ? 900 : 300);
-                handleSession(e);
+                handleSession();
               }}
             ><Coffee /> Finish Now</button>
           </div>
@@ -187,12 +187,12 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
           <div>
             <button 
               className={buttonClass}
-              onClick={(e)=>{
+              onClick={()=>{
                 setTimerMode("focus") 
                 setIsRunning(false); 
                 setTimerState("idle");
                 setTimeLeft(totalTime);
-                handleSession(e);
+                handleSession();
               }}
             ><Coffee /> End Break</button>
           </div>

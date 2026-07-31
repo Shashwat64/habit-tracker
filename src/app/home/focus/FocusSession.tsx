@@ -10,11 +10,17 @@ import ManageCategories from "./components/ManageCategories";
 
 import type { FocusCategories, FocusSession } from "@/src/types/types";
 
-
+ 
 
 type FocusSessionProps = {
   categories:FocusCategories[]
   todaySessions: FocusSession[]
+}
+
+type AllDurationType = {
+  focus: number
+  break: number
+  longBreak: number 
 }
 
 
@@ -26,20 +32,27 @@ export default function FocusSession({categories, todaySessions}:FocusSessionPro
 
 
   useEffect(()=>{
-    setCurrectSession(focusSessions.length%4);
+    setCurrectSession(focusSessions.length%4+1);
   },[focusSessions])
 
 
-  const [timeLeft, setTimeLeft] = useState<number>(1200); //value should be durationInSeconds
-  const [totalTime, setTotalTime] = useState<number>(1200); //value should be durationInSeconds
-
+  
   const [currectSession, setCurrectSession] = useState<number>(focusSessions.length); //value should be durationInSeconds
-
-
+  
+  
   const [isRunning, setIsRunning] = useState<boolean>(false); 
   const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false) //make this false
   const [isManageCategoryOpen, setIsManageCategoryOpen] = useState<boolean>(false) //make this false
+  
+  const [allDuration, setAllDuration] = useState<AllDurationType>({
+    focus: 30,
+    break: 5,
+    longBreak: 15
+  })
+
+  const [timeLeft, setTimeLeft] = useState<number>(allDuration[timerMode]*60); //value should be durationInSeconds
+  const [totalTime, setTotalTime] = useState<number>(timeLeft); //value should be durationInSeconds
 
   const [sessionTitle, setSessionTitle] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(unarchievedCategories?.[0]?.id ?? null);
@@ -59,6 +72,16 @@ export default function FocusSession({categories, todaySessions}:FocusSessionPro
       document.body.style.overflow = originalOverflow;
     };
   }, [isCategoryOpen, isManageCategoryOpen]);
+
+
+  useEffect(()=>{
+    setAllDuration(prev=>({...prev, [timerMode]:(totalTime/60)}))
+  }, [totalTime])
+
+  useEffect(()=>{
+    setTotalTime(allDuration[timerMode]*60)
+    setTimeLeft(allDuration[timerMode]*60)
+  }, [timerMode])
 
 
   return(

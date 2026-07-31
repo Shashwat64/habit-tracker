@@ -66,6 +66,8 @@ export default function FocusTimeline({todaySessions}:{todaySessions: FocusSessi
   const [selectedDate, setSelectedDate] = useState<Date>(today)
   const [sessions, setSessions] = useState<FocusSession[]>(todaySessions);
 
+  console.log("sessions is ", sessions)
+
   const focusSessions = sessions.filter(ses => ses.mode==="focus")
   const breakSessions = sessions.filter(ses => ses.mode!=="focus")
 
@@ -119,7 +121,7 @@ export default function FocusTimeline({todaySessions}:{todaySessions: FocusSessi
             className="mx-2 border border-border bg-surface p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] active:brightness-95 cursor-pointer"
             ><ChevronLeft /></button>
 
-          <div className="bg-input w-50 flex justify-center py-2 px-15 rounded-lg">{formatDate(selectedDate)}</div>
+          <div className="bg-input w-50 flex justify-center py-2 rounded-lg">{formatDate(selectedDate)}</div>
 
           <button
             disabled = {today.getTime() === selectedDate.getTime()}

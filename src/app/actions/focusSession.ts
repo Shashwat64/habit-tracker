@@ -46,7 +46,6 @@ export async function addFocusSession(data: FocusSessionData) {
     return err;
   }
   
-  
   revalidatePath("/home/focus");
 }
 
@@ -94,8 +93,5 @@ export async function getFocusSessionByDate(date: Date): Promise<FocusSession[]>
     console.error(err);
     throw new Error("Failed to fetch focus sessions");
   }
-  
-  
-  revalidatePath("/home/focus");
 }
 
