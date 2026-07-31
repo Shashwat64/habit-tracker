@@ -38,6 +38,15 @@ const formatDuration = (minutes: number): string => {
   return `${hours}h ${mins}m`;
 }
 
+  const timeToIndex = (time:string, calenderheight:number)=>{
+    const hrAndMin = time.split(":");
+    if(!Number.isNaN(hrAndMin[0]) && !Number.isNaN(hrAndMin[1])){
+      let index = Number(hrAndMin[0])*calenderheight + (Number(hrAndMin[1])/60)*calenderheight;
+      return index;
+    }
+    return -1;
+  }
+
 
 
 type InfoCardDetails = {
@@ -65,8 +74,44 @@ export default function FocusTimeline({todaySessions}:{todaySessions: FocusSessi
 
   const [selectedDate, setSelectedDate] = useState<Date>(today)
   const [sessions, setSessions] = useState<FocusSession[]>(todaySessions);
+  
+  const [calenderheight, setCalenderheight] = useState<number>(100);
 
-  console.log("sessions is ", sessions)
+  const timeToIndex = (time:string)=>{
+    const hrAndMin = time.split(":");
+    if(!Number.isNaN(hrAndMin[0]) && !Number.isNaN(hrAndMin[1])){
+      let index = Number(hrAndMin[0])*calenderheight + (Number(hrAndMin[1])/60)*calenderheight;
+      return index;
+    }
+    return -1;
+  }
+
+
+  const [currentTime, setCurrentTime] = useState<string>(
+    new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+  );
+
+  useEffect(() => {
+    const updateTime = () => {
+      setCurrentTime(
+        new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+      );
+    };
+
+    updateTime();
+
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const focusSessions = sessions.filter(ses => ses.mode==="focus")
   const breakSessions = sessions.filter(ses => ses.mode!=="focus")
@@ -135,16 +180,29 @@ export default function FocusTimeline({todaySessions}:{todaySessions: FocusSessi
       </div>
 
         {/* calender */}
-      <div className="mt-5 flex-1 min-h-0 border-2 border-border overflow-y-auto">
+      <div className="mt-5 flex-1 relative min-h-0 border-2 border-border overflow-y-auto">
+        {selectedDate.toDateString() === today.toDateString() && <div 
+          className="absolute w-full flex items-center z-50"
+          style={{ 
+              top: `${timeToIndex(currentTime)}px`,
+              transform: "translateY(-50%)",
+          }}
+        >
+          <p className="bg-red-400 p-1 rounded-md">
+            {currentTime}
+          </p>
+          <hr className="flex-1 m-0 border-0 border-t border-red-400" />
+        </div>}
+        
         <div>
           {hours.map(hour => (
             <div
               className="relative"
               key={hour}
-              style={{ height: "100px" }}
+              style={{ height: `${calenderheight}px` }}
             >
                <div className="flex items-center">
-                <span className="w-12 text-sm">
+                <span className="w-12 text-sm z-20 ml-1">
                   {hour.toString().padStart(2, "0")}:00
                 </span>
 
