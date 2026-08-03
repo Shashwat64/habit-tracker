@@ -37,11 +37,11 @@ const formatDuration = (minutes: number): string => {
 
   return `${hours}h ${mins}m`;
 }
-
+  /* To get the top margin */
   const timeToIndex = (time:string, calenderheight:number)=>{
     const hrAndMin = time.split(":");
     if(!Number.isNaN(hrAndMin[0]) && !Number.isNaN(hrAndMin[1])){
-      let index = Number(hrAndMin[0])*calenderheight + (Number(hrAndMin[1])/60)*calenderheight;
+      let index = Number(hrAndMin[0])*calenderheight + (Number(hrAndMin[1])/60)*calenderheight + 6;
       return index;
     }
     return -1;
@@ -65,26 +65,72 @@ const InfoCard = ({cardInfo}: {cardInfo:InfoCardDetails}) => (
   </div>
 )
 
-const hours = Array.from({ length: 24 }, (_, i) => i);
+type SessionCardDetails = {
+  icon: LucideIcon,
+  title: string
+  data: string
+}
+
+const SessionCard = ({focusSession, calenderheight}: {focusSession:FocusSession, calenderheight:number}) => {
+
+  const min = Math.floor(focusSession.actualDuration/60);
+  const hr = Math.floor(min/60);
+
+  const startTime = new Date(focusSession.startedAt).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  const height = hr*calenderheight + min*calenderheight/60
+
+  if(height<15){
+    return
+  }
+
+
+
+  return(
+    <div className="absolute text-sm font-bold top-2.5 right-0 w-4/10 mr-10 flex items-center z-50 bg-red-600 rounded-md p-1 overflow-hidden"
+     style={{ 
+          top: `${timeToIndex(startTime, calenderheight)}px`,
+          height: `${height}px`,         
+      }}
+    >
+      <div className="flex flex-col w-1/2 self-start ">
+        <p>{startTime}</p>
+        {focusSession.title === "Untitled Session" || "" ? "" : 
+        <p>{focusSession.title}</p>}
+        <p>{focusSession.categoryName}</p>
+      </div>
+      <div className="flex w-1/2 self-end justify-end">
+        {hr}h{min}m
+      </div>
+    </div>
+)}
+
+const hours = Array.from({ length: 25 }, (_, i) => i);
 
 export default function FocusTimeline({todaySessions}:{todaySessions: FocusSession[]}){
 
+  
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
+  
   const [selectedDate, setSelectedDate] = useState<Date>(today)
   const [sessions, setSessions] = useState<FocusSession[]>(todaySessions);
+  console.log(sessions)
   
   const [calenderheight, setCalenderheight] = useState<number>(100);
 
-  const timeToIndex = (time:string)=>{
+/*   const timeToIndex = (time:string)=>{
     const hrAndMin = time.split(":");
     if(!Number.isNaN(hrAndMin[0]) && !Number.isNaN(hrAndMin[1])){
-      let index = Number(hrAndMin[0])*calenderheight + (Number(hrAndMin[1])/60)*calenderheight;
+      let index = Number(hrAndMin[0])*calenderheight + (Number(hrAndMin[1])/60)*calenderheight + 10;
       return index;
     }
     return -1;
-  }
+  } */
 
 
   const [currentTime, setCurrentTime] = useState<string>(
@@ -181,10 +227,11 @@ export default function FocusTimeline({todaySessions}:{todaySessions: FocusSessi
 
         {/* calender */}
       <div className="mt-5 flex-1 relative min-h-0 border-2 border-border overflow-y-auto">
+        {/* Current-time line */}
         {selectedDate.toDateString() === today.toDateString() && <div 
           className="absolute w-full flex items-center z-50"
           style={{ 
-              top: `${timeToIndex(currentTime)}px`,
+              top: `${timeToIndex(currentTime, calenderheight)}px`,
               transform: "translateY(-50%)",
           }}
         >
@@ -193,6 +240,19 @@ export default function FocusTimeline({todaySessions}:{todaySessions: FocusSessi
           </p>
           <hr className="flex-1 m-0 border-0 border-t border-red-400" />
         </div>}
+
+          {/* <div className="absolute text-sm font-bold top-2.5 right-0 w-4/10 mr-10 h-10 flex items-center z-50 bg-red-600 rounded-md p-1 overflow-hidden">
+            <div className="flex flex-col w-1/2 self-start ">
+              <p>01:50</p>
+              <p>Title</p>
+              <p>Category</p>
+            </div>
+            <div className="flex w-1/2 self-end justify-end">
+              1h40m
+            </div>
+          </div> */}
+
+          {todaySessions.map((session)=><SessionCard focusSession={session} calenderheight={calenderheight}/>)}
         
         <div>
           {hours.map(hour => (

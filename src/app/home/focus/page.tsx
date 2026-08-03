@@ -13,7 +13,7 @@ export default async function FocusPage(){
   const todaySessions = await getFocusSessionByDate(today);
 
   return(
-    <main className="flex flex-col max-h-screen p-10">
+    <main className="flex flex-col max-h-screen p-10 select-none">
       <section className="flex justify-between items-end">
         <div>
           <h1 className="text-2xl font-bold">Focus</h1>

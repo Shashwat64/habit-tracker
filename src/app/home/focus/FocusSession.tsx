@@ -156,6 +156,7 @@ export default function FocusSession({categories, todaySessions}:FocusSessionPro
           currectSession={currectSession}
           setCurrectSession={setCurrectSession}
           selectedCategoryId={selectedCategoryId}
+          sessionTitle={sessionTitle}
         />
       </div>
        <hr className="my-4 border-gray-600"/>

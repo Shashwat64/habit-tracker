@@ -24,6 +24,7 @@ type CircularTimer = {
   currectSession:number
   setCurrectSession: React.Dispatch<React.SetStateAction<number>>
   selectedCategoryId:number | null
+  sessionTitle:string
 }
 
 const timerColor={
@@ -44,22 +45,34 @@ const timerColor={
   },
 }
 
-export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft, width, height, isRunning, setIsRunning, timerMode, setTimerMode, totalTime, setTotalTime, currectSession, setCurrectSession, selectedCategoryId}:CircularTimer){
+export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft, width, height, isRunning, setIsRunning, timerMode, setTimerMode, totalTime, setTotalTime, currectSession, setCurrectSession, selectedCategoryId, sessionTitle}:CircularTimer){
+
+  console.log("totalTime is ", totalTime)
+  console.log("timeLeft is ", timeLeft)
+  console.log("timerMode is ", timerMode)
+  console.log("isRunning is ", isRunning)
 
   
   const [timerState, setTimerState] = useState<"idle" | "running">("idle");
 
   useEffect(() => {
+    console.log("Effect started");
     if (!isRunning ) return;
 
+    const startTime = new Date();
+    console.log("New start time:", startTime);
+
+
     const interval = setInterval(() => {
-      setTimeLeft(prev => {
-        return prev - 1;
-      });
+      const currentTime = new Date();
+
+      const diffSec = Math.floor((currentTime.getTime() - startTime.getTime())/1000)
+
+      setTimeLeft(totalTime - diffSec);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning]);
+  }, [isRunning, timerMode]);
 
   const radius = 100;
   const circumference = 2 * Math.PI * radius;
@@ -74,6 +87,9 @@ export default function CircularTimer({durationInSeconds, timeLeft, setTimeLeft,
         const data:FocusSessionData = {
           categoryId: selectedCategoryId as number,
           mode: timerMode,
+
+          title: sessionTitle,
+          categoryName: "",
 
           plannedDuration: totalTime,
           actualDuration: actualDuration,

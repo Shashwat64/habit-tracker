@@ -31,16 +31,16 @@ export async function addFocusSession(data: FocusSessionData) {
 
   if (!session) return;
 
-  const {categoryId, mode, plannedDuration, actualDuration, status, startedAt} = data
+  const {categoryId, mode, plannedDuration, actualDuration, status, startedAt, title} = data
 
   const userId = session.user.id;
 
   try{
     await db.query(
     `INSERT INTO focus_sessions 
-      (user_id, category_id, mode, planned_duration, actual_duration, status, started_at) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-    [userId, categoryId, mode, plannedDuration, actualDuration, status, startedAt]
+      (user_id, category_id, mode, planned_duration, actual_duration, status, started_at, title) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    [userId, categoryId, mode, plannedDuration, actualDuration, status, startedAt, title]
   )
   }catch(err){
     return err;
@@ -65,11 +65,15 @@ export async function getFocusSessionByDate(date: Date): Promise<FocusSession[]>
   try{
     const res = await db.query(
       `
-      SELECT *
-      FROM focus_sessions
-      WHERE user_id = $1
-        AND started_at >= $2
-        AND started_at < $3
+      SELECT
+          fs.*,
+          fc.name AS category_name
+      FROM focus_sessions AS fs
+      LEFT JOIN focus_categories AS fc
+          ON fs.category_id = fc.id
+      WHERE fs.user_id = $1
+        AND fs.started_at >= $2
+        AND fs.started_at < $3;
       `,
       [userId, date, nextDay]
     );
@@ -77,6 +81,10 @@ export async function getFocusSessionByDate(date: Date): Promise<FocusSession[]>
     const formatedData = res.rows.map(data => ({
       id:data.id,
       userId: data.user_id,
+
+      categoryName: data.category_name,
+
+      title: data.title,
 
       categoryId: data.category_id,
       mode: data.mode,

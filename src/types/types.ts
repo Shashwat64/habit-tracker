@@ -73,6 +73,9 @@ export type FocusSession = {
   categoryId: number
   mode: "focus" | "break" | "longBreak"
 
+  title:string
+  categoryName:string
+
   plannedDuration: number
   actualDuration: number
 
