@@ -56,7 +56,7 @@ type InfoCardDetails = {
 }
 
 const InfoCard = ({cardInfo}: {cardInfo:InfoCardDetails}) => (
-  <div className="flex border-2 border-border gap-2 bg-card-light p-2 rounded-lg">
+  <div className="flex flex-1 border-2 border-border gap-2 bg-card-light p-2 rounded-lg">
     <cardInfo.icon size={30}/>
     <div>
       <h2 className="text-sm">{cardInfo.title}</h2>
@@ -66,12 +66,11 @@ const InfoCard = ({cardInfo}: {cardInfo:InfoCardDetails}) => (
 )
 
 type SessionCardDetails = {
-  icon: LucideIcon,
-  title: string
-  data: string
+  focusSession:FocusSession
+   calenderheight:number
 }
 
-const SessionCard = ({focusSession, calenderheight}: {focusSession:FocusSession, calenderheight:number}) => {
+const SessionCard = ({focusSession, calenderheight}: SessionCardDetails) => {
 
   const min = Math.floor(focusSession.actualDuration/60);
   const hr = Math.floor(min/60);
@@ -221,7 +220,7 @@ export default function FocusTimeline({todaySessions}:{todaySessions: FocusSessi
             ><ChevronRight /></button>
       </div>
 
-      <div className="flex justify-around mt-5">
+      <div className="flex justify-around mt-5 gap-2">
         {infoCardDetials.map((cardInfo, i)=><InfoCard key={i} cardInfo={cardInfo}/>)}
       </div>
 

@@ -32,12 +32,12 @@ export default function FocusSession({categories, todaySessions}:FocusSessionPro
 
 
   useEffect(()=>{
-    setCurrectSession(focusSessions.length%4+1);
+    setCurrentSession(focusSessions.length%4+1);
   },[focusSessions])
 
 
   
-  const [currectSession, setCurrectSession] = useState<number>(focusSessions.length); //value should be durationInSeconds
+  const [currentSession, setCurrentSession] = useState<number>(focusSessions.length); //value should be durationInSeconds
   
   
   const [isRunning, setIsRunning] = useState<boolean>(false); 
@@ -153,8 +153,8 @@ export default function FocusSession({categories, todaySessions}:FocusSessionPro
           setTimerMode={setTimerMode}
           totalTime={totalTime}
           setTotalTime={setTotalTime}
-          currectSession={currectSession}
-          setCurrectSession={setCurrectSession}
+          currectSession={currentSession}
+          setCurrectSession={setCurrentSession}
           selectedCategoryId={selectedCategoryId}
           sessionTitle={sessionTitle}
         />
@@ -164,8 +164,8 @@ export default function FocusSession({categories, todaySessions}:FocusSessionPro
         <h2 className="text-2xl mb-2">Today:</h2>
 
         <div className="flex justify-between">
-          <p>Current Focus: {currectSession}/4</p>
-          <p>Next: {currectSession===4 ? "Long Break 20 mins" : "Short Break 5 mins"}</p>
+          <p>Current Focus: {currentSession}/4</p>
+          <p>Next: {currentSession===4 ? "Long Break 20 mins" : "Short Break 5 mins"}</p>
         </div>
       </div>
       

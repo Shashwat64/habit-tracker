@@ -67,7 +67,8 @@ export async function getFocusSessionByDate(date: Date): Promise<FocusSession[]>
       `
       SELECT
           fs.*,
-          fc.name AS category_name
+          fc.name AS category_name,
+          fc.color AS category_color
       FROM focus_sessions AS fs
       LEFT JOIN focus_categories AS fc
           ON fs.category_id = fc.id
@@ -87,6 +88,8 @@ export async function getFocusSessionByDate(date: Date): Promise<FocusSession[]>
       title: data.title,
 
       categoryId: data.category_id,
+      categoryColor: data.category_color,
+
       mode: data.mode,
 
       plannedDuration: data.planned_duration,
