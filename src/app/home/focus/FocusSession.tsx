@@ -10,6 +10,9 @@ import ManageCategories from "./components/ManageCategories";
 
 import type { FocusCategories, FocusSession } from "@/src/types/types";
 
+//stores
+import { useTimerStore, useSessionStore, useCategoryStore } from "@/src/stores/timerStore";
+
  
 
 type FocusSessionProps = {
@@ -27,9 +30,49 @@ type AllDurationType = {
 
 export default function FocusSession({categories, todaySessions}:FocusSessionProps){
 
-  const unarchievedCategories = categories.filter(cate=>!cate.isArchived)
-  const focusSessions = todaySessions.filter(ses => ses.mode==="focus")
+  const [allDuration, setAllDuration] = useState<AllDurationType>({
+    focus: 30,
+    break: 5,
+    longBreak: 15
+  })
 
+  const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
+  const [isRunning, setIsRunning] = useState<boolean>(false); 
+  const [timeLeft, setTimeLeft] = useState<number>(allDuration[timerMode]*60); //value should be durationInSeconds
+  const [totalTime, setTotalTime] = useState<number>(timeLeft); //value should be durationInSeconds
+
+  /* 
+    const timerMode = useTimerStore(state=>state.timerMode)
+    const setTimerMode = useTimerStore(state=>state.setTimerMode)
+
+
+    const isRunning = useTimerStore(state=>state.isRunning)
+    const toggleIsRunning = useTimerStore(state=>state.toggleIsRunning)
+
+    const timeLeft = useTimerStore(state=>state.timeLeft)
+    const setTimeLeft = useTimerStore(state=>state.setTimeLeft)
+    const changeTimeLeft = useTimerStore(state=>state.changeTimeLeft)
+
+    const totalTime = useTimerStore(state=>state.totalTime)
+    const setTotalTime = useTimerStore(state=>state.setTotalTime)
+    const changeTotalTime = useTimerStore(state=>state.changeTotalTime)
+  
+  */
+
+
+
+  const setTodaySessions = useSessionStore(state=> state.setTodaySessions);
+  setTodaySessions(todaySessions);
+  
+  const todaySessionsInStore = useSessionStore(state=> state.todaySessions);
+
+  
+  const unarchievedCategories = categories.filter(cate=>!cate.isArchived)
+  const focusSessions = todaySessionsInStore.filter(ses => ses.mode==="focus")
+  
+  const [currentSession, setCurrentSession] = useState<number>(focusSessions.length); //value should be durationInSeconds
+  
+  const [sessionTitle, setSessionTitle] = useState("");
 
   useEffect(()=>{
     setCurrentSession(focusSessions.length%4+1);
@@ -37,25 +80,16 @@ export default function FocusSession({categories, todaySessions}:FocusSessionPro
 
 
   
-  const [currentSession, setCurrentSession] = useState<number>(focusSessions.length); //value should be durationInSeconds
-  
-  
-  const [isRunning, setIsRunning] = useState<boolean>(false); 
-  const [timerMode, setTimerMode] = useState<"focus" | "break" | "longBreak">("focus"); 
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false) //make this false
   const [isManageCategoryOpen, setIsManageCategoryOpen] = useState<boolean>(false) //make this false
-  
-  const [allDuration, setAllDuration] = useState<AllDurationType>({
-    focus: 30,
-    break: 5,
-    longBreak: 15
-  })
-
-  const [timeLeft, setTimeLeft] = useState<number>(allDuration[timerMode]*60); //value should be durationInSeconds
-  const [totalTime, setTotalTime] = useState<number>(timeLeft); //value should be durationInSeconds
-
-  const [sessionTitle, setSessionTitle] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(unarchievedCategories?.[0]?.id ?? null);
+  
+  
+
+
+  
+
+
 
   
 

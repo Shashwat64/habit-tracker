@@ -5,12 +5,15 @@ import { getFocusCategory } from "../../actions/focus"
 
 import { getFocusSessionByDate } from "../../actions/focusSession";
 
+
 export default async function FocusPage(){
 
   const categories = await getFocusCategory();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const todaySessions = await getFocusSessionByDate(today);
+
+
 
   return(
     <main className="flex flex-col max-h-screen p-10 select-none">

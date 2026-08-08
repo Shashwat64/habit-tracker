@@ -84,4 +84,22 @@ export type FocusSession = {
   startedAt: Date
 }
 
+export const dummySessionData:FocusSession = {
+  id:0,
+  userId: 0,
+
+  categoryId: 0,
+  mode: "focus" ,
+
+  title:"",
+  categoryName:"",
+
+  plannedDuration: 0,
+  actualDuration: 0,
+
+  status: "completed",
+
+  startedAt: new Date
+}
+
 export type FocusSessionData = Omit<FocusSession, "id" | "userId">

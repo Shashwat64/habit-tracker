@@ -23,7 +23,7 @@ type TimerStore = {
 };
 
 
-const useTimerStore = create <TimerStore> (set=>({
+export const useTimerStore = create <TimerStore> (set=>({
   timerMode:"focus",
   setTimerMode: (mode: TimerMode)=>
     set({timerMode: mode}),
@@ -51,14 +51,21 @@ const useTimerStore = create <TimerStore> (set=>({
 type SessionStore = {
   currentSession: number;
   setCurrentSession: (sessionNumber: number) => void;
+  
+  todaySessions: FocusSession[];
+  setTodaySessions: (sessionNumber: FocusSession[]) => void;
+
 
   sessionTitle: string;
   setSessionTitle: (title: string) => void;
 }
 
-const useSessionStore = create <SessionStore> (set=>({
+export const useSessionStore = create <SessionStore> (set=>({
   currentSession:0,
   setCurrentSession:(sessionNumber:number)=>set({currentSession:sessionNumber}),
+
+  todaySessions:[], /* Done */
+  setTodaySessions: (todaySessions)=>set({todaySessions:todaySessions}),
 
   sessionTitle:"",
   setSessionTitle:(title:string)=>
@@ -68,17 +75,20 @@ const useSessionStore = create <SessionStore> (set=>({
 
 
 type CategoryStore = {
-  isCategoryOpen: boolean;
-  toggleIsCategory: () => void;
+  isCategoryOpen: boolean
+  toggleIsCategory: () => void
 
-  isManageCategoryOpen: boolean;
-  toggleIsManageCategoryOpen: () => void;
+  isManageCategoryOpen: boolean
+  toggleIsManageCategoryOpen: () => void
 
-  selectedCategoryId: number | null;
-  setSelectedCategoryId: (id: number | null) => void;
+  selectedCategoryId: number | null
+  setSelectedCategoryId: (id: number | null) => void
+
+  categories:FocusCategories[]
+  setCategories:(focusCategories:FocusCategories[])=>void
 }
 
-const useCategoryStore = create <CategoryStore> (set=>({
+export const useCategoryStore = create <CategoryStore> (set=>({
   isCategoryOpen:false,
   toggleIsCategory:()=>
     set((state: CategoryStore)=>({
@@ -94,4 +104,8 @@ const useCategoryStore = create <CategoryStore> (set=>({
   selectedCategoryId:null,
   setSelectedCategoryId:(id:number|null)=>
     set({selectedCategoryId: id}),
+
+  categories:[],
+  setCategories:(focusCategories:FocusCategories[])=>
+    set({categories: focusCategories}),
 }))
